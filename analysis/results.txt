@@ -1,0 +1,5 @@
+HOME-logical-zero MOVEL: SINGULARITY
+same endpoints MOVEJ: T_fahrt=1.020, error=NONE
+same endpoints MOVEL: T_fahrt=1.680, error=NONE
+tiny positive duration: state=2, T_fahrt=1.680, error=NONE
+dense numerical MOVEL estimate (not a continuous bound): 1.042 s
