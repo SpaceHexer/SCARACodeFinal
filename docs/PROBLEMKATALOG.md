@@ -1,3 +1,31 @@
+# Aktueller Stand der Neufassung
+
+Die folgende Statusübersicht ersetzt ältere Lösungsvorschläge mit kartesischer
+Geradenplanung. Die anschließende ursprüngliche Analyse bleibt als datierter
+Befund zur alten Firmware erhalten.
+
+| ID | Aktuelle Behandlung |
+|---|---|
+| U-001 | Ziel-IK und Gelenkprofile statt kartesischem Startplaner. MOVEXY direkt nach vollständigem Homing im main-Test ausgeführt, ohne MOVEJ-Vorbefehl. |
+| U-002 | Kartesische Streckenplanung vollständig entfallen. Keine globalen Bahn-Ableitungsabschätzungen; Gelenkpolynome werden an ihren eigenen Extremstellen geprüft. |
+| U-003 | Neue Vorgabe: keine Gerade/kürzeste TCP-Strecke. MOVEL/CHECKLINE explizit entfernt, keine Umdeutung. |
+| U-004 | Neue Vorgabe: zwei im Code einzeln deaktivierbare STOPs. Alle vier Konfigurationen mit GPIO-Spies und echter main-Schleife getestet; deaktivierte/nie betätigte Eingänge verursachen auch unmittelbar nach Boot keine Phantom-RESETSTOP-Sperre. |
+| U-005 | Benutzerentscheidung: Positionen nur RAM. 16 Slots, nach Neustart leer; SAVE/POSITION/LIST/DELETE implementiert. |
+| A-001 | qRef getrennt von Zähler n_ref=0; vorläufig 0° laut Benutzer, mechanische Kalibrierung noch ausstehend. |
+| A-002 | Durch reine Gelenkprofile ersetzt. Allgemeine sechs Randwerte werden tatsächlich als vorbereitete Folgen ausgeführt. |
+| A-003/A-004 | Referenzbit je Achse, Einzel-/Parallel-/sequenzielles zweistufiges Homing implementiert. Physische Freigabe konfigurierbar. |
+| A-006 | Atomarer MotorStatus mit Fehler und Laufzustand verhindert Erfolg allein aus !running. Fehlerfälle im main-Test nie als DONE bestätigt. |
+| A-007/A-009 | Z-Halten bei abgeschalteten Treibern und tatsächliche Positionen bleiben Hardwarethemen. Keine Encoder-/Haltegarantie behauptet. |
+| A-010/A-011 | Direkte Ports und begrenzte TX-Queue; kein Warten auf UART-TX. ISR-Laufzeit/Pulszeiten noch am realen Mega messen. |
+| A-012 | Float32 auch im Hosttest, allgemeine Profile zusätzlich dicht gegengeprüft; keine formale Intervallgarantie behauptet. |
+| A-013/A-016 | Kartesische Bahntoleranz/Umfahrplanung entfallen. Gelenkprofile und Ziel-IK garantieren keine Kollisionsfreiheit. |
+| A-014/A-015 | Zwei Antastungen, initial gedrückte Schalter, Freifahren, Pause für STEP/DIR, Zeit-/Weggrenzen und deaktivierte Tasterfälle getestet. |
+| A-018 | Einheitliche OK/PLAN/DONE/ERR/STOPPED-Meldungen; keine Ausgabe aus ISR. LIST wird portioniert; TX_OVERFLOW diagnostiziert Überlast. |
+| A-026 | Neue Integrationsbeobachtung: alte ±180°-Grenzen widersprechen teils kleinem Home-Offset (J2 200 Impulse). Zusätzliche referenzbasierte Softgrenze schützt den bekannten Endschalter; Benutzergrenzen werden nie erweitert. |
+| A-027 | Neue Integrationsbeobachtung: langer Offsetweg mit Latchtempo könnte Homing-Timeout auslösen. Offsetweg fährt mit begrenztem Suchtempo und Rampe/Bremsung; langsames zweites Antasten bleibt erhalten. |
+
+---
+
 # Gemeinsamer Problemkatalog
 
 Fortlaufend ergänzen, IDs nicht neu vergeben. Benutzerbeobachtung und Diagnose

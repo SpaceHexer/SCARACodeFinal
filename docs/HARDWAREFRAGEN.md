@@ -1,23 +1,24 @@
-# Noch offene Angaben
+# Konfiguration am Roboter
 
-Vor Implementierung bzw. der betroffenen Hardwarefreigabe zu klären:
+Vom Benutzer beantwortet:
+- Repository: SpaceHexer/SCARA-Robot-Controller-Serial, privat als bisheriger Standard.
+- Positionen ausschließlich RAM, kein EEPROM.
+- L1=228 mm, L2=136,5 mm; Werkzeugversatz aktuell 0/0.
+- Geometrische Referenzwinkel vorläufig 0° bei allen Drehachsen.
+- Einzel-, vollständig paralleles und sequenzielles Homing gewünscht.
 
-1. Name, Besitzerkonto und öffentlich/privat für das neue GitHub-Repository.
-2. Sollen Positionen dauerhaft im EEPROM bleiben? Vorschlag: ja; Homing nach Neustart
-   trotzdem erforderlich. Slotzahl nach Budget, vorläufiger Vorschlag 32.
-3. Welche geometrischen Gelenkwinkel hat die Mechanik nach dem heutigen Homing?
-   Ist der Arm tatsächlich gestreckt oder wird nur softwareseitig q2=0 behauptet?
-4. Werkzeugversatz delta_x/delta_y und Verwendung eines Öffnungsservos. Die bestätigten
-   Armlängen sind L1=228 mm, L2=136,5 mm, nicht automatisch alle Tutorialmaße.
-5. Arduino Mega weiterhin vorhanden? Treibertypen, Microsteps, Getriebe,
-   Spindelsteigung, DIR-Vorzeichen, Homing-Richtungen und Schalterverdrahtung.
-6. Können J1/J2/J3/Z mechanisch gleichzeitig homen? Braucht z.B. Z zuerst Freiraum?
-   Ist die Z-Achse bei deaktivierten Treibern selbsthemmend oder gebremst?
-7. Tatsächliche Gelenkbereiche, belastbare Geschwindigkeits-/Beschleunigungsgrenzen,
-   gewünschte TCP-Toleranz und ggf. Encoderrückmeldung.
-8. Soll eine nicht zulässige Gerade abgelehnt werden, oder gehören automatische
-   Umfahrungen zum gewünschten „kürzesten Weg“? Dafür braucht es Hindernisdaten.
-9. Für U-002: konkrete MOVEJ-/MOVEL-Befehle, Startpose, T_wunsch, Ausgabe von PLAN
-   und beobachtete Fahrzeiten. Gleiche Endpunkte sind noch nicht dieselbe Bahn.
+Vom Benutzer anschließend am Roboter einzustellen/zu prüfen:
+1. qRef und homeOffsetSteps zusammen mit echter Endschalterlage, homeDirection,
+   direction, Microsteps/Getriebe und Z-Skalierung. Die Softgrenze am Referenz-
+   Endschalter wird daraus zusätzlich zu minimum/maximum abgeleitet.
+2. Seek-/Latchgeschwindigkeit, Beschleunigung, Freifahrweg und Zeit-/Weggrenzen.
+3. HOME_CONFIRMED einzeln setzen; PARALLEL_CONFIRMED und PARALLEL_GROUPS nur nach
+   Prüfung mechanisch zulässiger Gleichzeitigkeit freigeben.
+4. STOP-Schalter Pins 22/23 gegen GND, aktiv LOW/PULLUP; bei Nichtverwendung die
+   betreffende constexpr-Option false setzen. Alle aktiven Pins werden geprüft.
+5. Treibertyp, STEP/DIR-Minimalzeiten und Z-Halten/Bremse bei Treiberabschaltung.
+6. Reale Lastgrenzen, Genauigkeit und ISR-Laufzeit/Pulszeiten messen.
 
-Weitere Benutzerprobleme werden unter U-003 ff. ergänzt, bevor die Neufassung startet.
+Die Softwaretests bestätigen keine kollisionsfreie Bewegung, gemessenen Istwinkel
+oder Last-/Haltefähigkeit. Es gibt keine pauschale kartesische Start-Singularitäts-
+sperre mehr; die eigentlichen Zielgelenkgrenzen bleiben bindend.

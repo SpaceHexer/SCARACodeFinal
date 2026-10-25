@@ -1,0 +1,127 @@
+Processing megaatmega2560 (platform: atmelavr@5.3.0; board: megaatmega2560; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/atmelavr/megaatmega2560.html
+PLATFORM: Atmel AVR (5.3.0) > Arduino Mega or Mega 2560 ATmega2560 (Mega 2560)
+HARDWARE: ATMEGA2560 16MHz, 8KB RAM, 248KB Flash
+DEBUG: Current (avr-stub) External (avr-stub, simavr)
+PACKAGES:
+ - framework-arduino-avr @ 5.4.0
+ - toolchain-atmelavr @ 1.70300.191015 (7.3.0)
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 5 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+Compiling .pio/build/megaatmega2560/src/Homing.cpp.o
+Compiling .pio/build/megaatmega2560/src/MotorController.cpp.o
+Compiling .pio/build/megaatmega2560/src/Movement.cpp.o
+Compiling .pio/build/megaatmega2560/src/SerialCommands.cpp.o
+Compiling .pio/build/megaatmega2560/src/StopInputs.cpp.o
+Compiling .pio/build/megaatmega2560/src/main.cpp.o
+Linking .pio/build/megaatmega2560/firmware.elf
+Checking size .pio/build/megaatmega2560/firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [====      ]  38.9% (used 3189 bytes from 8192 bytes)
+Flash: [=         ]  13.9% (used 35402 bytes from 253952 bytes)
+Building .pio/build/megaatmega2560/firmware.hex
+========================= [SUCCESS] Took 2.21 seconds =========================
+
+Processing mega_stop00 (platform: atmelavr@5.3.0; board: megaatmega2560; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/atmelavr/megaatmega2560.html
+PLATFORM: Atmel AVR (5.3.0) > Arduino Mega or Mega 2560 ATmega2560 (Mega 2560)
+HARDWARE: ATMEGA2560 16MHz, 8KB RAM, 248KB Flash
+DEBUG: Current (avr-stub) External (avr-stub, simavr)
+PACKAGES:
+ - framework-arduino-avr @ 5.4.0
+ - toolchain-atmelavr @ 1.70300.191015 (7.3.0)
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 5 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+Compiling .pio/build/mega_stop00/src/Homing.cpp.o
+Compiling .pio/build/mega_stop00/src/MotorController.cpp.o
+Compiling .pio/build/mega_stop00/src/Movement.cpp.o
+Compiling .pio/build/mega_stop00/src/SerialCommands.cpp.o
+Compiling .pio/build/mega_stop00/src/StopInputs.cpp.o
+Compiling .pio/build/mega_stop00/src/main.cpp.o
+Linking .pio/build/mega_stop00/firmware.elf
+Checking size .pio/build/mega_stop00/firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [====      ]  38.9% (used 3189 bytes from 8192 bytes)
+Flash: [=         ]  13.8% (used 35004 bytes from 253952 bytes)
+Building .pio/build/mega_stop00/firmware.hex
+========================= [SUCCESS] Took 1.89 seconds =========================
+
+Processing mega_stop01 (platform: atmelavr@5.3.0; board: megaatmega2560; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/atmelavr/megaatmega2560.html
+PLATFORM: Atmel AVR (5.3.0) > Arduino Mega or Mega 2560 ATmega2560 (Mega 2560)
+HARDWARE: ATMEGA2560 16MHz, 8KB RAM, 248KB Flash
+DEBUG: Current (avr-stub) External (avr-stub, simavr)
+PACKAGES:
+ - framework-arduino-avr @ 5.4.0
+ - toolchain-atmelavr @ 1.70300.191015 (7.3.0)
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 5 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+Compiling .pio/build/mega_stop01/src/Homing.cpp.o
+Compiling .pio/build/mega_stop01/src/MotorController.cpp.o
+Compiling .pio/build/mega_stop01/src/Movement.cpp.o
+Compiling .pio/build/mega_stop01/src/SerialCommands.cpp.o
+Compiling .pio/build/mega_stop01/src/StopInputs.cpp.o
+Compiling .pio/build/mega_stop01/src/main.cpp.o
+Linking .pio/build/mega_stop01/firmware.elf
+Checking size .pio/build/mega_stop01/firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [====      ]  38.9% (used 3189 bytes from 8192 bytes)
+Flash: [=         ]  13.9% (used 35344 bytes from 253952 bytes)
+Building .pio/build/mega_stop01/firmware.hex
+========================= [SUCCESS] Took 1.31 seconds =========================
+
+Processing mega_stop10 (platform: atmelavr@5.3.0; board: megaatmega2560; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/atmelavr/megaatmega2560.html
+PLATFORM: Atmel AVR (5.3.0) > Arduino Mega or Mega 2560 ATmega2560 (Mega 2560)
+HARDWARE: ATMEGA2560 16MHz, 8KB RAM, 248KB Flash
+DEBUG: Current (avr-stub) External (avr-stub, simavr)
+PACKAGES:
+ - framework-arduino-avr @ 5.4.0
+ - toolchain-atmelavr @ 1.70300.191015 (7.3.0)
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 5 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+Compiling .pio/build/mega_stop10/src/Homing.cpp.o
+Compiling .pio/build/mega_stop10/src/MotorController.cpp.o
+Compiling .pio/build/mega_stop10/src/Movement.cpp.o
+Compiling .pio/build/mega_stop10/src/SerialCommands.cpp.o
+Compiling .pio/build/mega_stop10/src/StopInputs.cpp.o
+Compiling .pio/build/mega_stop10/src/main.cpp.o
+Linking .pio/build/mega_stop10/firmware.elf
+Checking size .pio/build/mega_stop10/firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [====      ]  38.9% (used 3189 bytes from 8192 bytes)
+Flash: [=         ]  13.9% (used 35340 bytes from 253952 bytes)
+Building .pio/build/mega_stop10/firmware.hex
+========================= [SUCCESS] Took 1.12 seconds =========================
+
+Environment     Status    Duration
+--------------  --------  ------------
+megaatmega2560  SUCCESS   00:00:02.209
+mega_stop00     SUCCESS   00:00:01.886
+mega_stop01     SUCCESS   00:00:01.309
+mega_stop10     SUCCESS   00:00:01.122
+========================= 4 succeeded in 00:00:06.526 =========================

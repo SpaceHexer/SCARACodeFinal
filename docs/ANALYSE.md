@@ -22,7 +22,7 @@ verfügbar. Der Manifest dokumentiert die tatsächlich vorliegenden Quellstände
   bestanden; ASan/UBSan aktiv, g++ mit -Wall -Wextra -Werror.
 - `pio run -e megaatmega2560 -j 4`: bestanden; RAM 1420/8192 Bytes,
   Flash 32176/253952 Bytes; keine externen Stepper-Bibliotheken.
-- Zusatzprobe `analysis/probe.cpp`: reproduziert die beiden Benutzerprobleme.
+- Zusatzprobe `analysis/archive/probe-legacy.cpp.txt`: reproduziert die beiden Benutzerprobleme.
 - Keine Messung von Timerlatenz, Pulsbreiten, Schritten unter Last oder tatsächlicher
   TCP-Position auf einem realen Mega/Roboter.
 
