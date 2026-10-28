@@ -1,4 +1,5 @@
 #include "Types.h"
+
 namespace scara {
 const char* errorName(Error e) {
   switch (e) {

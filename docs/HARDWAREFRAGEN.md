@@ -1,7 +1,9 @@
 # Konfiguration am Roboter
 
 Vom Benutzer beantwortet:
-- Repository: SpaceHexer/SCARA-Robot-Controller-Serial, privat als bisheriger Standard.
+- Aktuelles Repository: SpaceHexer/SCARACodeFinal (Benutzerangabe 28.10.2026).
+- Benutzerstand: HOME_CONFIRMED für alle Achsen true, paralleles Homing false;
+  sequenzielle Reihenfolge Z → J1 → J2 → J3. Beim Zusammenführen erhalten.
 - Positionen ausschließlich RAM, kein EEPROM.
 - L1=228 mm, L2=136,5 mm; Werkzeugversatz aktuell 0/0.
 - Geometrische Referenzwinkel vorläufig 0° bei allen Drehachsen.

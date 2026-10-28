@@ -1,0 +1,6 @@
+Stand: 2026-10-28
+Lokale Quellbasis: 486e858 (Timing-Fix und SETREF)
+Integrierter GitHub-Startstand: df9130e (Benutzerkonfiguration)
+Repository: https://github.com/SpaceHexer/SCARACodeFinal
+Board: Arduino Mega 2560
+Hardwarekonfiguration pruefen; Codex hat keine Hardware programmiert.

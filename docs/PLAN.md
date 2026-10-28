@@ -20,7 +20,8 @@ sämtliche älteren Vorgaben zu Geraden oder kürzesten TCP-Bahnen.
 7. Positionsspeicher: Benutzer hat RAM gewählt. 16 Slots, nach Neustart leer.
 8. Bedienung, Float32-Hosttests und vier Mega-Build-Konfigurationen: siehe
    VALIDIERUNG.md. Keine physische Bewegung oder Firmwareprogrammierung ausgeführt.
-9. GitHub: Name SpaceHexer/SCARA-Robot-Controller-Serial bestätigt. Erstellung
-   versucht, API Forbidden. Lokale Versionierung und ZIP als beauftragter Fallback.
+9. GitHub: aktuelles Benutzerziel SpaceHexer/SCARACodeFinal. Schreibzugriff am
+   28.10.2026 verfügbar; vorhandene Benutzerkonfiguration mit lokalen Änderungen
+   zusammenführen, ohne Remote-Historie zu überschreiben.
 
 Der alte Plan liegt ausschließlich als historischer Beleg in docs/archive.

@@ -1,5 +1,5 @@
-Loaded 35988 .text at address 0x0
-Loaded 766 .data
+Loaded 36062 .text at address 0x0
+Loaded 770 .data
 SCARA JOINT CONTROLLER; HELP
 STOP1=0 STOP2=1
 Positionen: RAM, nach Neustart leer

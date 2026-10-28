@@ -14,9 +14,11 @@ constexpr uint32_t SERIAL_BAUD = 115200;
 constexpr Real L1 = 228, L2 = 136.5f;   // Vom Benutzer bestätigte Maße in mm.
 constexpr Real TOOL_X = 0, TOOL_Y = 0;  // Benutzer: aktueller Werkzeugversatz 0.
 constexpr bool GEOMETRY_CONFIRMED = true;
-constexpr bool HOME_CONFIRMED[4] = {SCARA_TEST_CONFIRMED, SCARA_TEST_CONFIRMED,
-                                    SCARA_TEST_CONFIRMED, SCARA_TEST_CONFIRMED};
-constexpr bool PARALLEL_CONFIRMED = SCARA_TEST_CONFIRMED;
+constexpr bool HOME_CONFIRMED[4] = {true , true,
+                                    true, true};
+// Benutzerkonfiguration: false sperrt paralleles Homing am Roboter.
+// Der bestehende Testschalter gilt nur im Hosttest (auf AVR oben verboten).
+constexpr bool PARALLEL_CONFIRMED = false || SCARA_TEST_CONFIRMED;
 constexpr uint8_t PARALLEL_GROUPS[] = {0x0f};  // Erst nach mechanischer Prüfung freigeben.
 constexpr Real K1 = 200.0f * 4 * 20 / (2 * PI_VALUE), K2 = 200.0f * 4 * 16 / (2 * PI_VALUE);
 constexpr Real K3 = 200.0f * 4 * 4 / (2 * PI_VALUE), KZ = 100;

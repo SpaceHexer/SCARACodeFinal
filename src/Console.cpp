@@ -1,4 +1,5 @@
 #include "Console.h"
+
 namespace scara {
 size_t Console::write(uint8_t c) {
   if (count_ == SIZE) {

@@ -27,8 +27,8 @@ Alle Einstellungen stehen in `include/RobotConfig.h`:
 
 - `AXIS`: STEP/DIR/ENABLE/Endschalter, Impulse pro rad bzw. mm, `qRef`, Grenzen,
   Maximalgeschwindigkeit, Beschleunigung, optionaler Ruck und Homingparameter.
-- `HOME_CONFIRMED[4]`: standardmäßig false. Nach Prüfung der jeweiligen Achse auf
-  true setzen; nicht unbestätigte Richtungen/Offsets ungeprüft freigeben.
+- `HOME_CONFIRMED[4]`: vom Benutzer im GitHub-Stand für alle vier Achsen auf true
+  gesetzt. Diese Einstellungen wurden beim Zusammenführen erhalten.
 - `PARALLEL_CONFIRMED`: standardmäßig false. Erst nach mechanischer Prüfung
   paralleles Homing freigeben. `PARALLEL_GROUPS` enthält erlaubte gleichzeitige
   Achsmengen; HOME ALL wird abgelehnt, wenn nicht alle vier zusammen erlaubt sind.
@@ -86,7 +86,7 @@ sind keine Erfolgsmeldungen. Neue normale Fahrbefehle erst nach Abschluss senden
 |---|---|
 | HELP / PING / STATUS | Hilfe, Verbindung und referenzierter/geschätzter Zustand |
 | HOME ALL | Alle vier Achsen parallel, wenn Konfiguration das ausdrücklich erlaubt |
-| HOME ALL SEQUENTIAL | Alle Achsen nacheinander |
+| HOME ALL SEQUENTIAL | Alle Achsen nacheinander: Z → J1 → J2 → J3 |
 | HOME J1 / HOME J2 / HOME J3 / HOME Z | Nur diese Achse referenzieren |
 | SETREF ALL 0 0 0 0 | Aktuelle bekannte Stellung als J1/J2/J3=0°, Z=0 mm übernehmen; keine Bewegung |
 | SETREF J1 30 / SETREF Z 20 | Nur diese Achse mit ihrer bekannten aktuellen Stellung referenzieren |
@@ -267,10 +267,9 @@ GitHub Actions führt dieselben Prüfungen aus, sobald das Repository verfügbar
 
 ## GitHub-Status
 
-Gewünschtes Repository: **SpaceHexer/SCARA-Robot-Controller-Serial**, zunächst privat.
-Der Erstellungsversuch via GitHub-CLI scheitert in dieser Umgebung an
-`https://api.github.com/users/SpaceHexer: Forbidden`. Auch Plugin-Werkzeuge für
-GitHub sind hier nicht aufrufbar. Es wurde deshalb noch kein neues Remote erstellt
-und nichts hochgeladen. Der lokale Git-Stand und die ZIP enthalten die Ergebnisse.
-Sobald Schreibzugriff funktioniert, kann dieser Stand in das gewünschte neue
-Repository gepusht werden. Keine Tokens oder Geheimnisse in Projektdateien ablegen.
+Aktuelles, vom Benutzer vorgegebenes Ziel:
+**[SpaceHexer/SCARACodeFinal](https://github.com/SpaceHexer/SCARACodeFinal)**.
+Der Git-Schreibzugriff ist seit 28.10.2026 verfügbar. Der vorhandene GitHub-Stand
+wird mit dem lokalen Timing-Fix und SETREF zusammengeführt; Homingfreigaben und
+die Benutzerreihenfolge Z → J1 → J2 → J3 bleiben erhalten. Frühere API-/403-
+Blockaden sind historisch dokumentiert und betreffen nicht diesen Git-Zugriff.

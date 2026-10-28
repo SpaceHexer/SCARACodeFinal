@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <stdlib.h>
 #include <math.h>
+
 namespace scara {
 Error Homing::start(uint8_t mask, bool sequential) {
   if (!mask || (mask & 0xf0))
@@ -44,8 +45,18 @@ Error Homing::start(uint8_t mask, bool sequential) {
 }
 Error Homing::launchGroup() {
   uint8_t mask = pending_;
-  if (sequential_)
-    mask = uint8_t(pending_ & uint8_t(-pending_));
+  if (sequential_) {
+    // Achsnummern: J1=0, J2=1, J3=2, Z=3.
+    const uint8_t order[] = {3, 0, 1, 2};
+
+    mask = 0;
+    for (uint8_t axis : order) {
+      if (pending_ & axisBit(axis)) {  // Diese Achse wartet noch auf Homing.
+        mask = axisBit(axis);        // Nur diese Achse als Nächstes starten.
+        break;
+      }
+    }
+  }
   active_ = mask;
   pending_ &= uint8_t(~mask);
   for (uint8_t i = 0; i < 4; ++i)

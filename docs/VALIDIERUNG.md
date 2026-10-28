@@ -11,7 +11,8 @@ nicht auf die frühere kartesische Serial-Firmware.
   Integrationsprogramm mit echter main-Schleife: insgesamt acht Testprogramme.
 - PlatformIO/AVR-GCC Mega-Builds für megaatmega2560, mega_stop00, mega_stop01,
   mega_stop10. Keine Stepper- oder andere externe C++-Bibliothek.
-- Standardbuild: 3181/8192 Bytes statischer RAM, 36812/253952 Bytes Flash.
+- Standardbuild nach Integration der Benutzerkonfiguration: 3185/8192 Bytes
+  statischer RAM, 36890/253952 Bytes Flash.
 - Alle vier AVR-Konfigurationen erfolgreich. Die aktivierte Arduino-Core-
   Warnstufe zeigt unused-parameter-Warnungen in framework new.cpp; eigene
   Projektdateien wurden ohne Compilerwarnungen gebaut.
@@ -103,11 +104,12 @@ Numerikprüfung ist keine formale gerichtete Intervallarithmetik.
 
 Kein Firmware-Upload und keine reale Bewegung. Kein Last-/Schrittverlusttest,
 keine Encoder-Istmessung, keine Kollisionsprüfung, keine physische Messung von ISR-Laufzeit,
-STEP-Pulsbreite und DIR-Vorlauf. HOME_CONFIRMED und PARALLEL_CONFIRMED bleiben
-für echte Hardware standardmäßig deaktiviert, bis die Konfiguration geprüft ist.
+STEP-Pulsbreite und DIR-Vorlauf. Die aus GitHub übernommene Benutzerkonfiguration
+hat HOME_CONFIRMED für alle Achsen aktiviert; PARALLEL_CONFIRMED bleibt am
+Roboter false. Die sequenzielle Reihenfolge ist Z → J1 → J2 → J3.
 Der Host-Testschalter SCARA_TEST_CONFIRMED darf nicht in AVR-Binaries verwendet
 werden; ein Compilerfehler verhindert dies.
 
-GitHub: Erstellung von SpaceHexer/SCARA-Robot-Controller-Serial versucht, durch
-API-Forbidden blockiert. Kein Remote erstellt oder Upload behauptet. Lokaler
-Git-Stand und ZIP enthalten den beauftragten Fallback.
+GitHub: früheres Erstellungsziel durch API-Forbidden blockiert. Neues Benutzerziel
+SpaceHexer/SCARACodeFinal ist am 28.10.2026 per Git les- und schreibbar. Vorhandene
+Benutzeränderungen und lokaler Stand werden ohne Force-Push zusammengeführt.
