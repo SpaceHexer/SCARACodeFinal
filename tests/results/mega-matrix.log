@@ -19,6 +19,8 @@ Compiling .pio/build/megaatmega2560/src/Homing.cpp.o
 Compiling .pio/build/megaatmega2560/src/Kinematics.cpp.o
 Compiling .pio/build/megaatmega2560/src/MotorController.cpp.o
 Compiling .pio/build/megaatmega2560/src/Movement.cpp.o
+Compiling .pio/build/megaatmega2560/src/PositionStore.cpp.o
+Compiling .pio/build/megaatmega2560/src/QuinticProfile.cpp.o
 Compiling .pio/build/megaatmega2560/src/SerialCommands.cpp.o
 Compiling .pio/build/megaatmega2560/src/StopInputs.cpp.o
 Compiling .pio/build/megaatmega2560/src/Types.cpp.o
@@ -28,8 +30,7 @@ Checking size .pio/build/megaatmega2560/firmware.elf
 Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
 RAM:   [====      ]  38.9% (used 3185 bytes from 8192 bytes)
 Flash: [=         ]  14.5% (used 36890 bytes from 253952 bytes)
-Building .pio/build/megaatmega2560/firmware.hex
-========================= [SUCCESS] Took 1.47 seconds =========================
+========================= [SUCCESS] Took 1.21 seconds =========================
 
 Processing mega_stop00 (platform: atmelavr@5.3.0; board: megaatmega2560; framework: arduino)
 --------------------------------------------------------------------------------
@@ -52,6 +53,8 @@ Compiling .pio/build/mega_stop00/src/Homing.cpp.o
 Compiling .pio/build/mega_stop00/src/Kinematics.cpp.o
 Compiling .pio/build/mega_stop00/src/MotorController.cpp.o
 Compiling .pio/build/mega_stop00/src/Movement.cpp.o
+Compiling .pio/build/mega_stop00/src/PositionStore.cpp.o
+Compiling .pio/build/mega_stop00/src/QuinticProfile.cpp.o
 Compiling .pio/build/mega_stop00/src/SerialCommands.cpp.o
 Compiling .pio/build/mega_stop00/src/StopInputs.cpp.o
 Compiling .pio/build/mega_stop00/src/Types.cpp.o
@@ -61,8 +64,7 @@ Checking size .pio/build/mega_stop00/firmware.elf
 Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
 RAM:   [====      ]  38.9% (used 3185 bytes from 8192 bytes)
 Flash: [=         ]  14.4% (used 36484 bytes from 253952 bytes)
-Building .pio/build/mega_stop00/firmware.hex
-========================= [SUCCESS] Took 1.26 seconds =========================
+========================= [SUCCESS] Took 1.17 seconds =========================
 
 Processing mega_stop01 (platform: atmelavr@5.3.0; board: megaatmega2560; framework: arduino)
 --------------------------------------------------------------------------------
@@ -85,6 +87,8 @@ Compiling .pio/build/mega_stop01/src/Homing.cpp.o
 Compiling .pio/build/mega_stop01/src/Kinematics.cpp.o
 Compiling .pio/build/mega_stop01/src/MotorController.cpp.o
 Compiling .pio/build/mega_stop01/src/Movement.cpp.o
+Compiling .pio/build/mega_stop01/src/PositionStore.cpp.o
+Compiling .pio/build/mega_stop01/src/QuinticProfile.cpp.o
 Compiling .pio/build/mega_stop01/src/SerialCommands.cpp.o
 Compiling .pio/build/mega_stop01/src/StopInputs.cpp.o
 Compiling .pio/build/mega_stop01/src/Types.cpp.o
@@ -94,8 +98,7 @@ Checking size .pio/build/mega_stop01/firmware.elf
 Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
 RAM:   [====      ]  38.9% (used 3185 bytes from 8192 bytes)
 Flash: [=         ]  14.5% (used 36832 bytes from 253952 bytes)
-Building .pio/build/mega_stop01/firmware.hex
-========================= [SUCCESS] Took 1.19 seconds =========================
+========================= [SUCCESS] Took 1.21 seconds =========================
 
 Processing mega_stop10 (platform: atmelavr@5.3.0; board: megaatmega2560; framework: arduino)
 --------------------------------------------------------------------------------
@@ -118,6 +121,8 @@ Compiling .pio/build/mega_stop10/src/Homing.cpp.o
 Compiling .pio/build/mega_stop10/src/Kinematics.cpp.o
 Compiling .pio/build/mega_stop10/src/MotorController.cpp.o
 Compiling .pio/build/mega_stop10/src/Movement.cpp.o
+Compiling .pio/build/mega_stop10/src/PositionStore.cpp.o
+Compiling .pio/build/mega_stop10/src/QuinticProfile.cpp.o
 Compiling .pio/build/mega_stop10/src/SerialCommands.cpp.o
 Compiling .pio/build/mega_stop10/src/StopInputs.cpp.o
 Compiling .pio/build/mega_stop10/src/Types.cpp.o
@@ -127,13 +132,12 @@ Checking size .pio/build/mega_stop10/firmware.elf
 Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
 RAM:   [====      ]  38.9% (used 3185 bytes from 8192 bytes)
 Flash: [=         ]  14.5% (used 36828 bytes from 253952 bytes)
-Building .pio/build/mega_stop10/firmware.hex
-========================= [SUCCESS] Took 1.33 seconds =========================
+========================= [SUCCESS] Took 1.24 seconds =========================
 
 Environment     Status    Duration
 --------------  --------  ------------
-megaatmega2560  SUCCESS   00:00:01.474
-mega_stop00     SUCCESS   00:00:01.264
-mega_stop01     SUCCESS   00:00:01.188
-mega_stop10     SUCCESS   00:00:01.328
-========================= 4 succeeded in 00:00:05.255 =========================
+megaatmega2560  SUCCESS   00:00:01.209
+mega_stop00     SUCCESS   00:00:01.175
+mega_stop01     SUCCESS   00:00:01.209
+mega_stop10     SUCCESS   00:00:01.236
+========================= 4 succeeded in 00:00:04.828 =========================

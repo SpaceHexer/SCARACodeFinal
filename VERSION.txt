@@ -4,3 +4,4 @@ Integrierter GitHub-Startstand: df9130e (Benutzerkonfiguration)
 Repository: https://github.com/SpaceHexer/SCARACodeFinal
 Board: Arduino Mega 2560
 Hardwarekonfiguration pruefen; Codex hat keine Hardware programmiert.
+Formatierung: 28.10.2026; unveraenderte Mega-Firmware nachgewiesen.

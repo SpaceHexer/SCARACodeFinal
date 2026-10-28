@@ -3,13 +3,16 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+
 using namespace scara;
+
 void near(Real a, Real b, Real e = 3e-4f) {
   if (!isfinite(a) || !isfinite(b) || fabsf(a - b) > e) {
     printf("near failed %.9g %.9g tol %.9g\n", double(a), double(b), double(e));
     assert(false);
   }
 }
+
 void resetHardware() {
   testMicros = 0;
   simulateSwitches = false;
@@ -25,6 +28,7 @@ void resetHardware() {
   memset(physicalSteps, 0, sizeof(physicalSteps));
   txCapacity = 64;
 }
+
 struct Rig {
   StopInputs stops;
   MotorController motors;
@@ -32,17 +36,20 @@ struct Rig {
   Movement movement;
   Homing homing;
   PositionStore store;
+
   Rig() : motors(stops), movement(motors, robot), homing(motors, robot) {
     resetHardware();
     stops.begin();
     motors.begin();
   }
+
   void tick() {
     testMicros += config::TICK_US;
     txCapacity = 64;
     motors.tick();
     stops.poll();
   }
+
   void finish() {
     for (uint32_t n = 0; n < 4000000 && movement.busy(); ++n) {
       movement.update();
@@ -51,6 +58,7 @@ struct Rig {
     assert(!movement.busy());
   }
 };
+
 void profiles() {
   QuinticProfile p;
   assert(p.configure(3, 0, 0, 0, 1, 0, 0));
@@ -64,8 +72,7 @@ void profiles() {
   near(s.velocity, 43.125f);
   near(s.acceleration, 15);
   for (int n = 1; n <= 100; ++n) {
-    Real T = .2f + n * .037f, q0 = .003f * n, q1 = 1 + .001f * n, v0 = .001f * n, v1 = .003f * n,
-         a0 = -.002f * n, a1 = .001f * n;
+    Real T = .2f + n * .037f, q0 = .003f * n, q1 = 1 + .001f * n, v0 = .001f * n, v1 = .003f * n, a0 = -.002f * n, a1 = .001f * n;
     assert(p.configure(T, q0, v0, a0, q1, v1, a1));
     s = p.evaluate(0);
     near(s.position, q0);
@@ -113,16 +120,14 @@ void profiles() {
   limits.maxJerk = 20;
   for (uint16_t n = 0; n < 200; ++n) {
     Real T = .5f + 4 * random();
-    assert(p.configure(T, 2 * random() - 1, random() - .5f, random() - .5f, 2 * random() - 1,
-                       random() - .5f, random() - .5f));
+    assert(p.configure(T, 2 * random() - 1, random() - .5f, random() - .5f, 2 * random() - 1, random() - .5f, random() - .5f));
     if (p.check(limits) != Error::None)
       continue;
     ++accepted;
     for (uint16_t k = 0; k <= 4000; ++k) {
       Sample sample = p.evaluate(T * k / 4000);
       assert(sample.position >= -2.0001f && sample.position <= 2.0001f);
-      assert(fabsf(sample.velocity) <= 2.0001f && fabsf(sample.acceleration) <= 3.0001f &&
-             fabsf(sample.jerk) <= 20.0005f);
+      assert(fabsf(sample.velocity) <= 2.0001f && fabsf(sample.acceleration) <= 3.0001f && fabsf(sample.jerk) <= 20.0005f);
     }
   }
   assert(accepted > 10);
@@ -131,6 +136,7 @@ void profiles() {
       "PASS quintic: all six boundaries, interior extrema, speed/acceleration/jerk limits "
       "(float32)");
 }
+
 void kinematics() {
   Kinematics k;
   Joints seed, q;
@@ -167,6 +173,7 @@ void kinematics() {
   assert(q.q[1] >= config::limits(1).minimum);
   puts("PASS endpoint IK/FK: branches, limits, straight-arm target, no Cartesian start planner");
 }
+
 void stopInputs() {
   for (int button = 0; button < 2; ++button) {
     Rig r;
@@ -196,8 +203,7 @@ void stopInputs() {
   stops.begin();
   MotorController m(stops);
   m.begin();
-  assert((m.status().error == Error::Stopped) ==
-         (config::STOP_BUTTON_1_ENABLED || config::STOP_BUTTON_2_ENABLED));
+  assert((m.status().error == Error::Stopped) == (config::STOP_BUTTON_1_ENABLED || config::STOP_BUTTON_2_ENABLED));
   if (!config::STOP_BUTTON_1_ENABLED)
     assert(!modeCalls[config::STOP_BUTTON_1_PIN] && !readCalls[config::STOP_BUTTON_1_PIN]);
   if (!config::STOP_BUTTON_2_ENABLED)
@@ -206,6 +212,7 @@ void stopInputs() {
       "PASS STOP configuration: disabled pins untouched, boot hold, reset interlock, no auto "
       "resume");
 }
+
 void motor() {
   Rig r;
   Joints q;
@@ -264,6 +271,7 @@ void motor() {
   assert(r.motors.status().error == Error::StepRate);
   puts("PASS direct pulse counts, common time, underrun/timing/rate terminal errors");
 }
+
 void movements() {
   Rig r;
   r.robot.markReferenced(15);
@@ -334,6 +342,7 @@ void movements() {
       "PASS synchronized joints, EXACT, executable v/a boundary chains, successor and continuity "
       "checks");
 }
+
 void partialAndStore() {
   Rig r;
   MoveRequest q;
@@ -360,6 +369,7 @@ void partialAndStore() {
   assert(restarted.load(0, out) == Error::EmptySlot);
   puts("PASS partial reference gating and RAM position lifecycle");
 }
+
 void home() {
   for (bool sequential : {false, true}) {
     Rig r;
@@ -396,6 +406,7 @@ void home() {
   assert(r.homing.error() == Error::HomeTimeout && !r.robot.referenced(1));
   puts("PASS single, sequential and parallel two-pass homing; timeout invalidates references");
 }
+
 int main() {
   profiles();
   kinematics();

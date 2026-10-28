@@ -6,17 +6,21 @@ bool drivenLow[256] = {}, drivenHigh[256] = {}, simulateSwitches = false;
 int32_t physicalSteps[4] = {};
 int txCapacity = 64;
 FakeSerial Serial;
+
 unsigned long micros() {
   return uint32_t(testMicros);
 }
+
 unsigned long millis() {
   return uint32_t(testMicros / 1000);
 }
+
 void pinMode(uint8_t pin, uint8_t mode) {
   ++modeCalls[pin];
   if (mode == INPUT_PULLUP)
     pins[pin] = HIGH;
 }
+
 int digitalRead(uint8_t pin) {
   ++readCalls[pin];
   if (drivenLow[pin])
@@ -29,6 +33,7 @@ int digitalRead(uint8_t pin) {
         return physicalSteps[i] * scara::config::AXIS[i].homeDirection >= 100 ? LOW : HIGH;
   return pins[pin];
 }
+
 void digitalWrite(uint8_t pin, uint8_t value) {
   ++writeCalls[pin];
   if (value == HIGH && pins[pin] == LOW) {

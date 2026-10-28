@@ -3,96 +3,104 @@
   "board": "megaatmega2560",
   "files": [
     {
+      "path": ".clang-format",
+      "sha256": "f1ac0fbe56760c82e2b946d1dcc21987c4bcbb1be890849450d0234eea601cef"
+    },
+    {
+      "path": ".editorconfig",
+      "sha256": "6487ba2e04a8ff420f83ee19c81760bd912a379074130fc26079943f411a2cf0"
+    },
+    {
       "path": "include/Console.h",
-      "sha256": "173423277239a06bea1cb0dfe1f0b7a8760bde2c8333a59a970d9800b4b31128"
+      "sha256": "57f116229531b31702006aaf18d66af61412a96401de75617e06937a63245685"
     },
     {
       "path": "include/Homing.h",
-      "sha256": "594253c3820cc2a0da0285ec7b35a431a6833e47a45e3da9d4edd9f2574a3d46"
+      "sha256": "c315648d78de33ef8bbf8ba25b50f8929a980dc8a9d895ce45c9b296a4d1172e"
     },
     {
       "path": "include/Kinematics.h",
-      "sha256": "88593b49bcc9566bd9a939805b7ad66c97a4f7d8c5d12b83a920f4ab3bbaf01a"
+      "sha256": "d6e31e24a1dfe96d5a959540fa2d2688e0e6e449f625517334e0a33f0401cca2"
     },
     {
       "path": "include/MotorController.h",
-      "sha256": "ef4bf6a12f81ab6bc9e255bda2053350a99b3b9f24631f09c776bccb7000fc7e"
+      "sha256": "675726232776a8be2854d10699085b21834352160e8691d8fff94d3f1c041fb0"
     },
     {
       "path": "include/Movement.h",
-      "sha256": "0445b450ae9ab8342b9b3d67a1dfdd6dc88d9e053af1d2b247461bb341675acd"
+      "sha256": "d238afcd4e15250b1c611853ffa673dd913cedb5ad8e2ff86a2aacd4f0e409f3"
     },
     {
       "path": "include/PositionStore.h",
-      "sha256": "61ab7f339a2d2bc6666afc960072917e7f07925a20f2beeeba0ca48a79332d64"
+      "sha256": "ce132d4afdf5ef2a3a4975625fba0b6ceb0b3f4b32129da3e2d85a4f73cab3c0"
     },
     {
       "path": "include/QuinticProfile.h",
-      "sha256": "108eb7abd9b2dbe0921f1c5af56757cdc3ae5033c3616cb4f8b4a367a9843a50"
+      "sha256": "48ce065dbbdf353534a44d65cd6022e826cf118564ce4019a6fe40bfd51d99df"
     },
     {
       "path": "include/RobotConfig.h",
-      "sha256": "66864b59aefc8a1eb1323e87c5a8291e59f77f7bd347b6305c2a71cd789e45b1"
+      "sha256": "af249d4c2398c83cf2e85aa983f64414c40d4c1737f9c8adf74475c2b474482d"
     },
     {
       "path": "include/RobotState.h",
-      "sha256": "33e78d212cb8b8008cc32b40509fa351060418a8b0a111f8d2cb11fd75b76cab"
+      "sha256": "715a7ce127c1064a47dd6ecbe43f016571cec629707f5c1507e6f99e61dd87a3"
     },
     {
       "path": "include/SerialCommands.h",
-      "sha256": "791d7d827b6834514a2d193fe5471aa309bbf5bfec9e5e6083bd38cbfabb2b79"
+      "sha256": "26b37bfb84b1fdab36cd1bfc1744b0599fddfca8a5ca17df5d2832b803e86ece"
     },
     {
       "path": "include/StopInputs.h",
-      "sha256": "d174571b019c8a53eabc40c2b0b6d7b86f2dbf7ac8081b019e644342a986746c"
+      "sha256": "0c353a0fef4afb4de3fb9a68849290bea824aec3ea9d72c0dec1fa424c5dfde0"
     },
     {
       "path": "include/Types.h",
-      "sha256": "72bae6e59c1af0c6fd9b618dbad1ea1f0913076fd430356768accdbe857e99d1"
+      "sha256": "1e3a70b16af4373a7db7058ae712e378a7698f355a571c5aedd2255f394c0807"
     },
     {
       "path": "src/Console.cpp",
-      "sha256": "5e837003901eb3846a319f8a6be373f064e9e9093a6a72a270fcd1f5a2a76677"
+      "sha256": "92f2719cfd85a4bf64dbc7b2bd3c59afbf08bd9ec84104c5965d8b1b620fdf7f"
     },
     {
       "path": "src/Homing.cpp",
-      "sha256": "9a434658b25059c02e5e7e5dc5c7a7c82019261ccc6512826a718463d5614a88"
+      "sha256": "bf8ceac4e17bf498832f25130ce7b2eea51ccbb7f16a4fba495af53a2a7411a2"
     },
     {
       "path": "src/Kinematics.cpp",
-      "sha256": "0c35dff29775171235ca87d52603954c78d822819d4157f0f8032fd4ec3d7f90"
+      "sha256": "aee8a79f8bcb0f2cc6323541665496c6695160ff41abbb2c3f1981b3ab59175d"
     },
     {
       "path": "src/MotorController.cpp",
-      "sha256": "4e502a418fc5f27da8795ebe9f2ad57219c6f62bacc655a9284ed5b8dd3d748d"
+      "sha256": "04ad791c7e80a1c6bcc6f4fdd547d3ea85aabca868d55b0fbef6148e32fb1ee0"
     },
     {
       "path": "src/Movement.cpp",
-      "sha256": "45dc6f2581493fb7145b195802db8678c687e50c3ff958ab41028c174e3de972"
+      "sha256": "29226a1c814303e65c5f80b4edce8a5575c737e4d7383e47fce6e4251609050d"
     },
     {
       "path": "src/PositionStore.cpp",
-      "sha256": "28499c4656afddbdc534322eb069419fc294717ed4a7c313bdef74f069772aa0"
+      "sha256": "541c81095649e95d13ed3f18577ce90b975fcbf09288b2100bbcb8b1011526e8"
     },
     {
       "path": "src/QuinticProfile.cpp",
-      "sha256": "ac06e4050651d818f3c038c23958383d503be77e66af07d5be89af2bd8037eb0"
+      "sha256": "058eac31e18960703972fdeadbff19ddfbd599d5f7b8fc007ad1d0dc6c4ae6d6"
     },
     {
       "path": "src/SerialCommands.cpp",
-      "sha256": "5336ee76aef80f39f4a36983dc2205f51be4fd04d3b610b54e5f78d90e45a2c7"
+      "sha256": "f0a14e8e32f5da546e9dfcc37955f3973cbdac40e3aa391e74990a58e28426a0"
     },
     {
       "path": "src/StopInputs.cpp",
-      "sha256": "1e9d24b67c96953f3b69d0da8440755178b857c9f3814876cda8276586a8683b"
+      "sha256": "635d97bd2930d0f47362383f4e38d30e7c07b8316375feb6fff43481f2bc1861"
     },
     {
       "path": "src/Types.cpp",
-      "sha256": "f45f6873deb190f6991dfec6e68266f2cae6f336a39685a76104797f0d8530ae"
+      "sha256": "955fc324311df1aa634ec5c62fb1603d9338a81a760f33772b0d59dbefdb7281"
     },
     {
       "path": "src/main.cpp",
-      "sha256": "b48c663337845bcbd08a30bc1574c0e6a9a1ad21140d8798733641ac078c69f6"
+      "sha256": "114a11106f47ed9ae02783a17b06a8d181b276401acfc2008fa084b9f875e42f"
     },
     {
       "path": "tests/avr-timing/run.sh",
@@ -100,19 +108,19 @@
     },
     {
       "path": "tests/avr-timing/runner.c",
-      "sha256": "0604ffacae4eee2818c8f69a85c1c9035a27f348daac34bee90f66eb8dbb5914"
+      "sha256": "1260ecca24832cc231be1f27a638d91ecb520368dff1098d0242c7d19a837bc6"
     },
     {
       "path": "tests/host/Arduino.h",
-      "sha256": "194a06d9dfd8f1b92652eb69bc23b12b692d7969d590257f4881d01fdff9daf1"
+      "sha256": "d6fdc2ab778188ca8fdc455240b5297182680fd895a3c1de06dc6a69234c5ccc"
     },
     {
       "path": "tests/host/Hardware.cpp",
-      "sha256": "0b27a1135ee59b245f3133a28ecf19970641d4891acf96288d4806fefa2e27b5"
+      "sha256": "f1142bfde0c21e1359ec47515f4449f047650e644ed5a80f215b9c9b6cf467a2"
     },
     {
       "path": "tests/host/integration.cpp",
-      "sha256": "f169339a465e3ed939dd849664ee65351b2773275294996e0108aa46f51fb866"
+      "sha256": "9e70f421c11b15725e4477345213f53783391913c074d8491b06dfbe3a18efcf"
     },
     {
       "path": "tests/host/run.sh",
@@ -120,7 +128,7 @@
     },
     {
       "path": "tests/host/subsystems.cpp",
-      "sha256": "94d6b9a045c1298e37ff706df1acaecc1fccb1481f3ea8c7a4bac5872da2e2bd"
+      "sha256": "7d18a45208a5bf19794682baf0ea067d18f6733d5c822bbd88483718481747a1"
     }
   ]
 }

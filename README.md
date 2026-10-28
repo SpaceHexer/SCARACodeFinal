@@ -11,6 +11,10 @@ Home-Winkel 0°. Pins/Getriebe/Homing-Offsets wurden aus der früheren Firmware
 `include/` und `src/`, historische Analysebelege getrennt in `analysis/` und
 `docs/archive/`. Frühere Repositories wurden nicht verändert.
 
+Die Quelltexte verwenden zwei Leerzeichen je Einrückung und zusammenhängende
+Ausdrücke ohne kurze automatische Zeilenbegrenzung. `.clang-format` hält den
+Stil für clang-format 19 fest; `.editorconfig` hinterlegt Einrückung und LF.
+
 ## Start auf dem Computer
 
 1. ZIP entpacken und Ordner mit `platformio.ini` in VS Code / PlatformIO öffnen.

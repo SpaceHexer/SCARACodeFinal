@@ -16,20 +16,20 @@ struct Scenario {
   const char *command, *expected;
 };
 static const struct Scenario scenarios[] = {
-    {"SETREF ALL 0 0 0 0\n", "OK SETREF"},
-    {"MOVEJ 1 1 1 0 2\n", "DONE MOVE"},
-    {"MOVEJ 90 90 90 40 4\n", "DONE MOVE"},
-    {"MOVEJ 30 40 -45 20 3\n", "DONE MOVE"},
-    {"MOVEJ 0 0 0 0 3\n", "DONE MOVE"},
-    {"BEGIN\n", "OK"},
-    {"SEG 10 30 -30 10 3 V1 2 0 0 0 A1 1 0 0 0\n", "OK"},
-    {"SEG 20 30 -30 10 3 V0 2 0 0 0 A0 1 0 0 0\n", "OK"},
-    {"RUN\n", "DONE MOVE"},
-    {"STOP\n", "STOPPED; RESETSTOP"},
-    {"SETREF ALL 0 0 0 0\n", "ERR STOPPED"},
-    {"RESETSTOP\n", "OK"},
-    {"SETREF J1 5\n", "OK SETREF"},
-    {"SETREF ALL 0 0 0 0\n", "OK SETREF"},
+    {"SETREF ALL 0 0 0 0\n",                       "OK SETREF"         },
+    {"MOVEJ 1 1 1 0 2\n",                          "DONE MOVE"         },
+    {"MOVEJ 90 90 90 40 4\n",                      "DONE MOVE"         },
+    {"MOVEJ 30 40 -45 20 3\n",                     "DONE MOVE"         },
+    {"MOVEJ 0 0 0 0 3\n",                          "DONE MOVE"         },
+    {"BEGIN\n",                                    "OK"                },
+    {"SEG 10 30 -30 10 3 V1 2 0 0 0 A1 1 0 0 0\n", "OK"                },
+    {"SEG 20 30 -30 10 3 V0 2 0 0 0 A0 1 0 0 0\n", "OK"                },
+    {"RUN\n",                                      "DONE MOVE"         },
+    {"STOP\n",                                     "STOPPED; RESETSTOP"},
+    {"SETREF ALL 0 0 0 0\n",                       "ERR STOPPED"       },
+    {"RESETSTOP\n",                                "OK"                },
+    {"SETREF J1 5\n",                              "OK SETREF"         },
+    {"SETREF ALL 0 0 0 0\n",                       "OK SETREF"         },
 };
 static avr_t *cpu;
 static uint64_t entered, maxCycles, entries;
@@ -84,8 +84,7 @@ int main(int argc, char **argv) {
   uint32_t flags = 0;
   avr_ioctl(cpu, AVR_IOCTL_UART_SET_FLAGS('0'), &flags);
   avr_irq_t *input = avr_io_getirq(cpu, AVR_IOCTL_UART_GETIRQ('0'), UART_IRQ_INPUT);
-  avr_irq_register_notify(avr_io_getirq(cpu, AVR_IOCTL_UART_GETIRQ('0'), UART_IRQ_OUTPUT),
-                          output, NULL);
+  avr_irq_register_notify(avr_io_getirq(cpu, AVR_IOCTL_UART_GETIRQ('0'), UART_IRQ_OUTPUT), output, NULL);
   avr_irq_register_notify(avr_get_interrupt_irq(cpu, 32) + AVR_INT_IRQ_RUNNING, timing, NULL);
   const unsigned count = sizeof(scenarios) / sizeof(scenarios[0]);
   const char *sending = scenarios[0].command;
@@ -104,8 +103,7 @@ int main(int argc, char **argv) {
       lastCommand = cpu->cycle;
       nextByte = cpu->cycle + 160000;  // Antwort vollstaendig abwarten.
       nextTraffic = cpu->cycle + 8000000;
-    } else if (!*sending && !strcmp(scenarios[scenario].expected, "DONE MOVE") &&
-               cpu->cycle >= nextTraffic) {
+    } else if (!*sending && !strcmp(scenarios[scenario].expected, "DONE MOVE") && cpu->cycle >= nextTraffic) {
       // Serial-RX/TX-Interrupts gleichzeitig mit der Motor-ISR belasten.
       sending = "PING\nSTATUS\n";
       nextByte = cpu->cycle;
@@ -117,8 +115,7 @@ int main(int argc, char **argv) {
     if (state == cpu_Crashed || state == cpu_Done)
       failed = 1;
   }
-  printf("Timer3: entries=%llu max_ISR_cycles=%llu max_us=%.3f\n",
-         (unsigned long long)entries, (unsigned long long)maxCycles, maxCycles / 16.0);
+  printf("Timer3: entries=%llu max_ISR_cycles=%llu max_us=%.3f\n", (unsigned long long)entries, (unsigned long long)maxCycles, maxCycles / 16.0);
   // Unter dem 100-us-Takt bleiben; echte Hardware muss separat gemessen werden.
   if (failed || scenario != count || doneCount != 5 || maxCycles >= 1600) {
     fprintf(stderr, "FAIL AVR timing scenario=%u/%u done=%u\n", scenario, count, doneCount);

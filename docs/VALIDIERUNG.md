@@ -52,6 +52,16 @@ nicht auf die frühere kartesische Serial-Firmware.
     erzeugt kein erneutes DONE HOME. Der Test schlug vor der Korrektur fehl.
     Extreme Frameziele INT32_MIN/INT32_MAX werden ohne Integerüberlauf abgewiesen.
 
+## Formatierungsprüfung, 28.10.2026
+
+28 aktive C/C++-Dateien mit clang-format 19.1.7 formatiert. Alle Code- und
+Kommentartokens wurden mit dem vorherigen Commit 2dca3d0 verglichen und sind
+identisch. Die Formatierung entspricht der eingecheckten `.clang-format`.
+Alle vier Mega-Konfigurationen erneut erfolgreich gebaut; ihre firmware.hex
+stimmen per SHA256 bytegenau mit dem vorherigen Stand überein. Die bereits
+bestandenen Verhaltenstests bleiben damit auf dieselbe Firmware anwendbar.
+Prüfprotokoll: `tests/results/formatting-check.txt`.
+
 ## AVR-Ausführung im Simulator, 28.10.2026
 
 Der ursprüngliche Mega-Build aus Commit 2313dd9 wurde mit simavr 1.6 bei

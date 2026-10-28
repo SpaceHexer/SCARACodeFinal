@@ -1,0 +1,18 @@
+BasedOnStyle: Google
+# Sehr hohe Grenze: auch verschachtelte Ausdruecke bleiben in einer Zeile.
+ColumnLimit: 10000
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+NamespaceIndentation: All
+AccessModifierOffset: -2
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+SeparateDefinitionBlocks: Always
+BinPackArguments: true
+BinPackParameters: true
+AlignArrayOfStructures: Left
+ReflowComments: false
+SortIncludes: Never

@@ -2,6 +2,7 @@
 #include "SerialCommands.h"
 #include <assert.h>
 #include <stdio.h>
+
 using namespace scara;
 extern StopInputs stops;
 extern MotorController motors;
@@ -11,16 +12,19 @@ extern Homing homing;
 extern PositionStore positions;
 void setup();
 void loop();
+
 void cycle() {
   testMicros += config::TICK_US;
   txCapacity = 64;
   motors.tick();
   loop();
 }
+
 void flush() {
   for (int n = 0; n < 150; ++n)
     cycle();
 }
+
 void send(const std::string& s) {
   Serial.output.clear();
   Serial.input = s;
@@ -28,6 +32,7 @@ void send(const std::string& s) {
     cycle();
   flush();
 }
+
 void homeAll() {
   send("HOME ALL\n");
   assert(Serial.output.find("OK") != std::string::npos);
@@ -39,16 +44,17 @@ void homeAll() {
   assert(homing.state() == Homing::Done && robot.referenced(15));
   assert(Serial.output.find("DONE HOME") != std::string::npos);
 }
+
 void finishMove() {
   for (uint32_t n = 0; n < 4000000 && movement.busy(); ++n)
     cycle();
   flush();
   if (movement.state() != Movement::Done)
-    fprintf(stderr, "move failed: %s output=%s\n", errorName(movement.error()),
-            Serial.output.c_str());
+    fprintf(stderr, "move failed: %s output=%s\n", errorName(movement.error()), Serial.output.c_str());
   assert(movement.state() == Movement::Done);
   assert(Serial.output.find("DONE MOVE") != std::string::npos);
 }
+
 void reset() {
   drivenLow[config::STOP_BUTTON_1_PIN] = !config::STOP_BUTTON_1_ENABLED;
   drivenLow[config::STOP_BUTTON_2_PIN] = !config::STOP_BUTTON_2_ENABLED;
@@ -58,6 +64,7 @@ void reset() {
   assert(motors.status().error == Error::None);
   assert(!robot.referenced(15));
 }
+
 int main() {
   simulateSwitches = true;
   drivenLow[config::STOP_BUTTON_1_PIN] = !config::STOP_BUTTON_1_ENABLED;
@@ -251,11 +258,9 @@ int main() {
   reset();
   // Kein GPIO-Zugriff auf deaktivierte STOP-Eingänge, auch nach kompletter main-Ausführung.
   if (!config::STOP_BUTTON_1_ENABLED)
-    assert(!modeCalls[config::STOP_BUTTON_1_PIN] && !readCalls[config::STOP_BUTTON_1_PIN] &&
-           !writeCalls[config::STOP_BUTTON_1_PIN]);
+    assert(!modeCalls[config::STOP_BUTTON_1_PIN] && !readCalls[config::STOP_BUTTON_1_PIN] && !writeCalls[config::STOP_BUTTON_1_PIN]);
   if (!config::STOP_BUTTON_2_ENABLED)
-    assert(!modeCalls[config::STOP_BUTTON_2_PIN] && !readCalls[config::STOP_BUTTON_2_PIN] &&
-           !writeCalls[config::STOP_BUTTON_2_PIN]);
+    assert(!modeCalls[config::STOP_BUTTON_2_PIN] && !readCalls[config::STOP_BUTTON_2_PIN] && !writeCalls[config::STOP_BUTTON_2_PIN]);
   puts(
       "PASS main/Serial integration: partial HOME, direct MOVEXY, RAM positions, six-boundary "
       "chain, LIST, STOP in all phases");

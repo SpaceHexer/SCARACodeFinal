@@ -1,0 +1,11 @@
+Datum: 2026-10-28
+Vergleichsbasis: 2dca3d0a1fd56eff79eee97bf6a1c897d4a26dff
+Formatter: clang-format 19.1.7
+28 C/C++-Quelldateien: Code- und Kommentartokens unveraendert.
+clang-format --dry-run --Werror: 28/28 erfolgreich.
+Vier Mega-Builds: erfolgreich; firmware.hex jeweils bytegenau identisch.
+
+megaatmega2560: SHA256 ba37b64f40e155d8eddcaf28d3574bc538c36ed5b76225bcbba715305807735f (vorher = nachher)
+mega_stop00: SHA256 2bde8eaa98a55874615c16376a552bf8e878ae10e1e7de091d2d88d303866406 (vorher = nachher)
+mega_stop01: SHA256 f058f7d6bd1a796019dbb245004682310348af00ab5995e6afff642b5db4b2df (vorher = nachher)
+mega_stop10: SHA256 6caa29794f687ee933338f7e17c4cd4e5ec103f24c4d67ebc7e7eead7954a96d (vorher = nachher)
