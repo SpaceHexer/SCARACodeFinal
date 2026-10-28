@@ -133,7 +133,7 @@ void SerialCommands::execute(char* line) {
     lastMove_ = Movement::Idle;
     lastHome_ = Homing::Idle;
     lastFault_ = Error::Stopped;
-    out_.println(F("STOPPED; RESETSTOP und HOME erforderlich"));
+    out_.println(F("STOPPED; RESETSTOP, dann HOME oder SETREF erforderlich"));
     return;
   }
   if (!strcmp(cmd, "RESETSTOP") && n == 1) {
@@ -161,6 +161,7 @@ void SerialCommands::execute(char* line) {
   }
   if (!strcmp(cmd, "HELP") && n == 1) {
     out_.println(F("HOME ALL [SEQUENTIAL] | HOME J1/J2/J3/Z"));
+    out_.println(F("SETREF ALL j1 j2 j3 z | SETREF J1/J2/J3/Z wert (bekannte Iststellung)"));
     out_.println(F("SETJ J1 deg [T] | SETZ mm [T] | MOVEJ q1 q2 q3 z T"));
     out_.println(F("MOVEXY x y [Z mm] [PSI deg] [T s]"));
     out_.println(F("SAVE n | POSITION n [T] | LIST | DELETE n"));
@@ -170,6 +171,46 @@ void SerialCommands::execute(char* line) {
   }
   if (!strcmp(cmd, "MOVEL") || !strcmp(cmd, "CHECKLINE")) {
     out_.println(F("ERR REMOVED: keine kartesische Streckenplanung; MOVEXY nutzen"));
+    return;
+  }
+  if (!strcmp(cmd, "SETREF")) {
+    // Manuelle Referenzierung: kein Verfahren zum Ziel, sondern Uebernahme
+    // einer vom Benutzer bekannten aktuellen Stellung. Winkel in Grad, Z in mm.
+    if (movement_.busy() || homing_.busy()) {
+      reply(Error::Busy);
+      return;
+    }
+    Joints q;
+    uint8_t mask = 0;
+    if (n == 6 && !strcmp(t[1], "ALL")) {
+      mask = 15;
+      for (uint8_t i = 0; i < 4; ++i) {
+        if (!number(t[2 + i], q.q[i])) {
+          reply(Error::BadArgs);
+          return;
+        }
+        if (i < 3)
+          q.q[i] *= config::RAD_PER_DEG;
+      }
+    } else if (n == 3 && axis(t[1]) >= 0) {
+      const uint8_t i = uint8_t(axis(t[1]));
+      mask = axisBit(i);
+      if (!number(t[2], q.q[i])) {
+        reply(Error::BadArgs);
+        return;
+      }
+      if (i < 3)
+        q.q[i] *= config::RAD_PER_DEG;
+    } else {
+      reply(Error::BadArgs);
+      return;
+    }
+    const Error e = motors_.setReference(q, mask);
+    if (e == Error::None) {
+      robot_.markReferenced(mask);
+      out_.println(F("OK SETREF: Stellung manuell uebernommen, nicht gemessen"));
+    } else
+      reply(e);
     return;
   }
   if (!strcmp(cmd, "HOME")) {
@@ -190,8 +231,12 @@ void SerialCommands::execute(char* line) {
       reply(Error::BadArgs);
       return;
     }
-    lastHome_ = Homing::Idle;
-    reply(homing_.start(mask, seq));
+    const Error e = homing_.start(mask, seq);
+    // Abgelehnte Auftraege erzeugen keinen neuen Abschluss. Andernfalls
+    // koennte ein vorheriges Done faelschlich erneut als DONE HOME erscheinen.
+    if (e == Error::None)
+      lastHome_ = Homing::Idle;
+    reply(e);
     return;
   }
   if (!strcmp(cmd, "BEGIN") && n == 1) {
@@ -558,7 +603,7 @@ void SerialCommands::reportEvents() {
   }
   if (homing_.state() != lastHome_) {
     lastHome_ = homing_.state();
-    if (lastHome_ == Homing::Done)
+    if (lastHome_ == Homing::Done && m.error == Error::None)
       out_.println(F("DONE HOME"));
     else if (lastHome_ == Homing::Failed && m.error == Error::None)
       reply(homing_.error());

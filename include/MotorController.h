@@ -25,6 +25,7 @@ class MotorController {
   bool enqueue(const MotorFrame& frame);
   bool queueHasSpace() const;
   bool startFrames(uint8_t mask);
+  Error setReference(const Joints& knownPosition, uint8_t mask);  // Keine Motorbewegung.
   // distance=0: Endschalter-Suche; sonst endlicher Weg mit Anfahr-/Bremsrampe.
   bool homeRun(uint8_t axis, int8_t sign, uint16_t rate, int32_t distance = 0);
   void homeStop(uint8_t axis);
@@ -37,7 +38,13 @@ class MotorController {
   volatile bool running_ = false;
   volatile uint8_t homeMask_ = 0;
   volatile int32_t counts_[4] = {};
-  MotorFrame frames_[config::FRAME_QUEUE_SIZE], current_;
+  // Umrechnung/Pruefung erfolgt beim Einreihen in loop(), nicht in der ISR.
+  struct PreparedFrame {
+    uint16_t distance[4] = {};
+    uint8_t forwardMask = 0;
+    bool last = false, valid = true;
+  } frames_[config::FRAME_QUEUE_SIZE], current_;
+  int32_t queuedTarget_[4] = {};  // Endpunkt des zuletzt eingereihten Frames.
   volatile uint8_t read_ = 0, write_ = 0, count_ = 0;
   uint8_t motionMask_ = 0, highMask_ = 0, enabledMask_ = 0, homeFiniteMask_ = 0;
   int32_t homeTarget_[4] = {};

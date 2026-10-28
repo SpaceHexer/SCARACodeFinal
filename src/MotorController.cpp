@@ -131,6 +131,32 @@ int32_t MotorController::steps(uint8_t i) const {
   Critical lock;
   return counts_[i];
 }
+Error MotorController::setReference(const Joints& knownPosition, uint8_t mask) {
+  if (!mask || (mask & 0xf0))
+    return Error::BadArgs;
+  for (uint8_t i = 0; i < 4; ++i)
+    if ((mask & axisBit(i)) && !isfinite(knownPosition.q[i]))
+      return Error::BadArgs;
+  MotorFrame reference;
+  if (!convert(knownPosition, reference, mask))
+    return Error::JointLimit;
+  Critical lock;
+  const Error e = ready();
+  if (e != Error::None)
+    return e;
+  if (running_ || homeMask_ || count_ || highMask_)
+    return Error::Busy;
+  for (uint8_t i = 0; i < 4; ++i)
+    if ((mask & axisBit(i)) && limit(i))
+      return Error::Endstop;
+  // Ausschliesslich den Referenzzaehler setzen. Weder STEP noch ENABLE aendern.
+  // Der Benutzer bestaetigt mit SETREF eine bekannte physische Stellung.
+  // qRef bleibt der konfigurierte geometrische Winkel bei Zaehlerstand null.
+  for (uint8_t i = 0; i < 4; ++i)
+    if (mask & axisBit(i))
+      counts_[i] = reference.target[i];
+  return Error::None;
+}
 bool MotorController::convert(const Joints& q, MotorFrame& f, uint8_t mask) const {
   for (uint8_t i = 0; i < 4; ++i) {
     const auto a = config::limits(i);
@@ -152,10 +178,36 @@ bool MotorController::queueHasSpace() const {
   return count_ < config::FRAME_QUEUE_SIZE;
 }
 bool MotorController::enqueue(const MotorFrame& f) {
+  int32_t previous[4];
+  {
+    Critical lock;
+    if (error_ != Error::None || homeMask_ || count_ == config::FRAME_QUEUE_SIZE)
+      return false;
+    for (uint8_t i = 0; i < 4; ++i)
+      previous[i] = !running_ && !count_ ? counts_[i] : queuedTarget_[i];
+  }
+  PreparedFrame prepared;
+  prepared.last = f.last;
+  for (uint8_t i = 0; i < 4; ++i) {
+    const bool forward = f.target[i] >= previous[i];
+    // Vorzeichenlose Differenz vermeidet Ueberlauf auch bei extremen int32-
+    // Eingaben. Diese Rechnungen laufen mit freigegebenen Interrupts.
+    const uint32_t distance = forward ? uint32_t(f.target[i]) - uint32_t(previous[i])
+                                     : uint32_t(previous[i]) - uint32_t(f.target[i]);
+    if (distance > framePulseLimit_[i])
+      prepared.valid = false;
+    else
+      prepared.distance[i] = uint16_t(distance);
+    if (forward)
+      prepared.forwardMask |= axisBit(i);
+  }
+  // Ein STOP waehrend der Vorbereitung darf keinen Frame mehr veroeffentlichen.
   Critical lock;
   if (error_ != Error::None || homeMask_ || count_ == config::FRAME_QUEUE_SIZE)
     return false;
-  frames_[write_] = f;
+  frames_[write_] = prepared;
+  for (uint8_t i = 0; i < 4; ++i)
+    queuedTarget_[i] = f.target[i];
   write_ = (write_ + 1) % config::FRAME_QUEUE_SIZE;
   ++count_;
   return true;
@@ -229,19 +281,24 @@ bool MotorController::loadFrame() {
   current_ = frames_[read_];
   read_ = (read_ + 1) % config::FRAME_QUEUE_SIZE;
   --count_;
+  if (!current_.valid) {
+    halt(Error::StepRate);
+    return false;
+  }
   for (uint8_t i = 0; i < 4; ++i) {
-    int64_t delta = int64_t(current_.target[i]) - counts_[i];
-    if (delta > framePulseLimit_[i] || delta < -int32_t(framePulseLimit_[i]) ||
-        (!(motionMask_ & axisBit(i)) && delta)) {
+    if (!(motionMask_ & axisBit(i)) && current_.distance[i]) {
       halt(Error::StepRate);
       return false;
     }
-    distance_[i] = uint16_t(delta < 0 ? -delta : delta);
-    sign_[i] = delta < 0 ? -1 : 1;
-    acc_[i] = 0;
+    distance_[i] = current_.distance[i];
+    sign_[i] = current_.forwardMask & axisBit(i) ? 1 : -1;
+    // Der erste Frame-Takt erzeugt wegen distance <= TICKS_PER_FRAME/2
+    // garantiert keinen Puls. Seine DDA-Addition direkt vorwegnehmen, damit
+    // Framewechsel und normale DDA-Schleife nicht dieselbe ISR belasten.
+    acc_[i] = distance_[i];
     direction(i, sign_[i]);
   }
-  frameTick_ = 0;
+  frameTick_ = 1;
   load_ = false;
   return true;
 }
@@ -309,8 +366,10 @@ void MotorController::tick() {
     count_ = read_ = write_ = 0;
     return;
   }
-  if (load_ && !loadFrame())
+  if (load_) {
+    loadFrame();
     return;
+  }
   // DDA: Jede Achse addiert ihre Impulszahl. Bei Erreichen der Frame-Taktzahl
   // entsteht ein Impuls. So passen alle Achsen in dieselbe Segmentzeit.
   for (uint8_t i = 0; i < 4; ++i) {

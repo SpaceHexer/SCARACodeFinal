@@ -11,6 +11,9 @@ Befund zur alten Firmware erhalten.
 | U-003 | Neue Vorgabe: keine Gerade/kürzeste TCP-Strecke. MOVEL/CHECKLINE explizit entfernt, keine Umdeutung. |
 | U-004 | Neue Vorgabe: zwei im Code einzeln deaktivierbare STOPs. Alle vier Konfigurationen mit GPIO-Spies und echter main-Schleife getestet; deaktivierte/nie betätigte Eingänge verursachen auch unmittelbar nach Boot keine Phantom-RESETSTOP-Sperre. |
 | U-005 | Benutzerentscheidung: Positionen nur RAM. 16 Slots, nach Neustart leer; SAVE/POSITION/LIST/DELETE implementiert. |
+| U-006 | 28.10.2026: Benutzer meldet TIMING_ERROR bei MOVEJ 1 1 1 0 2. Im AVR-Simulator mit ursprünglicher ELF reproduziert: Timer3 bis 161,25 µs bei 100-µs-Takt. Frame-Differenzen/Prüfung aus ISR nach enqueue verlegt, erster DDA-Takt beim Laden vorweggenommen. Überwachung bleibt aktiv; neue AVR-Regression führt echte ELF aus. |
+| U-007 | Abgelehntes HOME konnte altes DONE HOME erneut ausgeben: Ereignisstatus wurde vor fehlgeschlagenem Start zurückgesetzt. Jetzt nur bei angenommenem Start zurücksetzen, DONE zusätzlich an fehlerfreien Motorstatus binden. Host-Regression reproduzierte den Fehler vor der Korrektur. |
+| U-008 | Benutzer wünscht Homing überspringen. SETREF übernimmt bekannte aktuelle Gelenkstellung ohne Impulse. Teilreferenzen, Grenzen, Stillstand, STOP-/Fehlersperre und erneute Referenzpflicht werden geprüft. |
 | A-001 | qRef getrennt von Zähler n_ref=0; vorläufig 0° laut Benutzer, mechanische Kalibrierung noch ausstehend. |
 | A-002 | Durch reine Gelenkprofile ersetzt. Allgemeine sechs Randwerte werden tatsächlich als vorbereitete Folgen ausgeführt. |
 | A-003/A-004 | Referenzbit je Achse, Einzel-/Parallel-/sequenzielles zweistufiges Homing implementiert. Physische Freigabe konfigurierbar. |

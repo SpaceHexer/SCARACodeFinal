@@ -250,6 +250,18 @@ void motor() {
   assert(r.motors.enqueue(f) && r.motors.startFrames(15));
   r.tick();
   assert(r.motors.status().error == Error::StepRate);
+  assert(r.motors.resetStop() == Error::None);
+  // Extreme absolute Ziele duerfen weder ueberlaufen noch als kurze Differenz
+  // in die ISR gelangen. Auch danach ist keine erfolgreiche Bewegung erlaubt.
+  f.target[0] = INT32_MIN;
+  assert(r.motors.enqueue(f) && r.motors.startFrames(15));
+  r.tick();
+  assert(r.motors.status().error == Error::StepRate);
+  assert(r.motors.resetStop() == Error::None);
+  f.target[0] = INT32_MAX;
+  assert(r.motors.enqueue(f) && r.motors.startFrames(15));
+  r.tick();
+  assert(r.motors.status().error == Error::StepRate);
   puts("PASS direct pulse counts, common time, underrun/timing/rate terminal errors");
 }
 void movements() {

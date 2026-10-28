@@ -65,7 +65,8 @@ Beide Eingänge werden zu Beginn jedes Timer-Takts geprüft. Erste LOW-Erkennung
 verriegelt STOP ohne Einschalt-Entprellverzögerung. Serial-STOP ruft dieselbe
 zentrale Abschaltung auf. Schritte/Queue enden, Treiber werden deaktiviert,
 Referenzen ungültig. Loslassen setzt nichts fort. Nach stabiler Freigabe aller
-aktiven Taster für 20 ms: RESETSTOP, danach HOME. Ein deaktivierter Taster
+aktiven Taster für 20 ms: RESETSTOP, danach HOME oder bewusste manuelle
+Referenzierung mit SETREF. Ein deaktivierter Taster
 blockiert das nicht. Serial-STOP bleibt bei jeder Tasterkonfiguration verfügbar.
 Boot und STATUS zeigen Aktivierung und gedrückte Eingänge.
 
@@ -87,6 +88,8 @@ sind keine Erfolgsmeldungen. Neue normale Fahrbefehle erst nach Abschluss senden
 | HOME ALL | Alle vier Achsen parallel, wenn Konfiguration das ausdrücklich erlaubt |
 | HOME ALL SEQUENTIAL | Alle Achsen nacheinander |
 | HOME J1 / HOME J2 / HOME J3 / HOME Z | Nur diese Achse referenzieren |
+| SETREF ALL 0 0 0 0 | Aktuelle bekannte Stellung als J1/J2/J3=0°, Z=0 mm übernehmen; keine Bewegung |
+| SETREF J1 30 / SETREF Z 20 | Nur diese Achse mit ihrer bekannten aktuellen Stellung referenzieren |
 | SETJ J1 30 [T] | Einzelne referenzierte Drehachse anfahren, Standardwunschdauer 1 s |
 | SETZ 20 [T] | Nur referenzierte Z-Achse bewegen |
 | MOVEJ 10 20 -30 40 3 [EXACT] | Vier Zielgelenke; J1/J2/J3 in Grad, Z in mm, T_wunsch=3 s |
@@ -94,7 +97,7 @@ sind keine Erfolgsmeldungen. Neue normale Fahrbefehle erst nach Abschluss senden
 | MOVEXY 210 145 Z 20 PSI 0 T 3 | Zielpose und Wunschdauer angeben |
 | SAVE 0 / POSITION 0 [T] | Aktuelle referenzierte TCP-Pose speichern bzw. über Ziel-IK/Gelenkprofile anfahren |
 | LIST / DELETE 0 | Gespeicherte Positionen auflisten bzw. löschen |
-| STOP / RESETSTOP | Verriegeln und nach Freigabe zurücksetzen; erneut Homing nötig |
+| STOP / RESETSTOP | Verriegeln und nach Freigabe zurücksetzen; danach erneut HOME oder SETREF nötig |
 | FK j1 j2 j3 z | Vorwärtskinematik, Winkelargumente in Grad |
 | IK x y z psi | Passende zulässige Zielgelenke ausgeben, psi in Grad |
 | REACH x y z psi | Prüft, ob eine zulässige Ziel-IK existiert; keine Kollisionsprüfung |
@@ -107,9 +110,51 @@ Konfiguration wird zentral im Code geprüft und freigegeben.
 
 Es gibt 16 Slots (0..15) **ausschließlich im RAM**. Nach Stromausfall/Neustart sind
 sie leer. STOP/RESETSTOP löschen gespeicherte Zielposen nicht, aber neue Fahrten
-benötigen erneut Referenzen. SAVE erfordert Stillstand und vollständiges Homing.
+benötigen erneut Referenzen. SAVE erfordert Stillstand und vollständige Referenzen.
 Keine EEPROM-Schreibvorgänge. Ein gespeicherter Punkt wird bei jedem Abruf neu
 über IK und Achsgrenzen geprüft. Er garantiert keine kollisionsfreie Anfahrt.
+
+### Homing überspringen: bekannte Stellung manuell übernehmen
+
+SETREF bewegt den Roboter nicht und sucht keinen Endschalter. Du gibst seine
+**tatsächliche aktuelle Stellung** vor. Nur wenn er wirklich bei allen Winkeln
+0° und Z=0 mm steht, passt dieses Beispiel:
+
+```text
+SETREF ALL 0 0 0 0
+STATUS
+MOVEJ 1 1 1 0 2
+```
+
+Andere Ausgangsstellung, beispielsweise J1=10°, J2=30°, J3=-40°, Z=20 mm:
+
+```text
+SETREF ALL 10 30 -40 20
+```
+
+Einzelne Achsen: `SETREF J1 10`, `SETREF J2 30`, `SETREF J3 -40`, `SETREF Z 20`.
+Nur die jeweils angegebenen Achsen erhalten eine Referenz. Intern werden ihre
+Schrittzähler passend zu qRef gesetzt, auf den nächsten Schritt gerundet; qRef
+in der Konfiguration bleibt unverändert. STEP und Treiberfreigabe ändern sich
+dabei nicht. Das ist eine Benutzerangabe, keine gemessene Encoderposition.
+
+SETREF ist nur im Stillstand erlaubt, auch nicht während BEGIN/SEG, Planung
+oder Homing. Ungültige Werte/Softgrenzen, ein aktiver Achsendschalter, aktive
+STOP-Taster und bestehende Fehler sperren die Übernahme. Nach STOP/Fehler erst
+`RESETSTOP`, dann erneut HOME oder SETREF. Loslassen/Neustart referenziert nicht
+automatisch. Die Hardwarekonfiguration und Grenzen müssen weiterhin stimmen.
+Unbekannte tatsächliche Stellung erfordert Homing; blindes Nullsetzen kann zu
+falschen Bewegungen führen.
+
+### TIMING_ERROR zurücksetzen
+
+TIMING_ERROR verriegelt absichtlich alle Folgeaufträge. Eine längere
+Wunschfahrzeit hebt diese Sperre nicht auf. Die Korrektur vom 28.10.2026
+verlegt die Frame-Vorbereitung aus der 100-us-ISR in die Hauptschleife. Den
+aktualisierten Code kompilieren und auf den Mega hochladen. Eigene Werte in
+RobotConfig.h vorher sichern und in den neuen Stand übernehmen. Danach erneut
+HOME oder SETREF verwenden. Bei erneutem Zeitfehler nicht die Überwachung
+abschalten; STATUS und den genauen Ablauf zur weiteren Diagnose festhalten.
 
 ### Beispiel nach Hardwarekalibrierung
 
@@ -207,6 +252,8 @@ Not-Halt-Kanal. Die aktivierten STOP-Pins bleiben unabhängig davon im Timer üb
 pio run -e megaatmega2560
 bash tests/host/run.sh
 pio run -e megaatmega2560 -e mega_stop00 -e mega_stop01 -e mega_stop10
+# Optional unter Linux mit libsimavr-dev: echte Mega-ELF ausführen.
+bash tests/avr-timing/run.sh .pio/build/megaatmega2560/firmware.elf
 ```
 
 Hosttests: g++, Bash, ASan/UBSan (unter Windows z.B. WSL). Sie simulieren GPIO,

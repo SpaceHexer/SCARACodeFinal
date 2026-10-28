@@ -70,6 +70,37 @@ int main() {
   send(std::string(270, 'a') + "STOP\nPING\n");
   assert(Serial.output.find("LINE_TOO_LONG") != std::string::npos);
   assert(motors.status().error == Error::None);
+  // Homing ueberspringen: SETREF setzt nur die bekannte Referenz, ohne GPIO-
+  // Impulse oder Treiberfreigabe. Ungueltige ALL-Auftraege wirken nicht teilweise.
+  send("SETREF ALL 0 0 0 999\n");
+  assert(Serial.output.find("JOINT_LIMIT") != std::string::npos);
+  assert(robot.referenceMask() == 0);
+  send("SETREF J1 nan\n");
+  assert(Serial.output.find("BAD_ARGS") != std::string::npos);
+  send("SETREF J1 5\n");
+  assert(robot.referenced(1) && !robot.referenced(15));
+  assert(fabsf(motors.position().q[0] / config::RAD_PER_DEG - 5) < .05f);
+  for (uint8_t i = 0; i < 4; ++i) {
+    assert(!edges[config::AXIS[i].stepPin]);
+    assert(pins[config::AXIS[i].enablePin] == HIGH);
+  }
+  send("MOVEXY 210 145\n");
+  assert(Serial.output.find("NOT_HOMED") != std::string::npos);
+  send("SETREF ALL 0 0 0 0\n");
+  assert(robot.referenced(15));
+  send("BEGIN\n");
+  send("SETREF ALL 0 0 0 0\n");
+  assert(Serial.output.find("BUSY") != std::string::npos);
+  send("CANCEL\n");
+  send("MOVEJ 1 1 1 0 2\n");
+  send("SETREF ALL 0 0 0 0\n");
+  assert(Serial.output.find("BUSY") != std::string::npos);
+  finishMove();
+  send("STOP\n");
+  send("SETREF ALL 0 0 0 0\n");
+  assert(Serial.output.find("ERR STOPPED") != std::string::npos);
+  assert(!robot.referenced(15));
+  reset();
   send("HOME J1\n");
   for (uint32_t n = 0; n < 4000000 && homing.busy(); ++n)
     cycle();
@@ -79,6 +110,19 @@ int main() {
   finishMove();
   send("MOVEXY 210 145\n");
   assert(Serial.output.find("NOT_HOMED") != std::string::npos);
+  homeAll();
+  // Ein abgelehntes HOME darf den alten erfolgreichen Abschluss nicht erneut
+  // melden. Ein Timingfehler verriegelt alle weiteren Motorauftraege.
+  motors.emergencyStop(Error::Timing);
+  flush();
+  send("HOME ALL SEQUENTIAL\n");
+  assert(Serial.output.find("ERR TIMING_ERROR") != std::string::npos);
+  assert(Serial.output.find("DONE HOME") == std::string::npos);
+  assert(!robot.referenced(15));
+  send("SETREF ALL 0 0 0 0\n");
+  assert(Serial.output.find("ERR TIMING_ERROR") != std::string::npos);
+  assert(!robot.referenced(15));
+  reset();
   homeAll();
   // Direkt nach Home: X/Y funktionieren ohne vorheriges MOVEJ, obwohl q2=0.
   send("MOVEXY 210 145 Z 20 PSI 0 T 3\n");
@@ -146,6 +190,9 @@ int main() {
     assert(motors.status().error == Error::Stopped && !homing.busy());
     send("RESETSTOP\n");
     assert(Serial.output.find("HELD") != std::string::npos);
+    send("SETREF ALL 0 0 0 0\n");
+    assert(Serial.output.find("HELD") != std::string::npos);
+    assert(!robot.referenced(15));
     send("HOME ALL\n");
     assert(!homing.busy());
     reset();

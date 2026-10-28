@@ -11,6 +11,9 @@ sämtliche älteren Vorgaben zu Geraden oder kürzesten TCP-Bahnen.
    Allgemeine Randraten werden für neue Dauern refittet, begrenzte Suche.
 4. Direkte STEP/DIR-Ausgabe, atomare Fehler-/Fertigmeldung: implementiert.
 5. Homing je Achse, parallel oder sequenziell, zwei Antastungen: implementiert.
+   Ergänzung 28.10.2026: SETREF ALL / SETREF J1/J2/J3/Z erlaubt bewusstes
+   Überspringen der Schalterfahrt bei bekannter tatsächlicher Stellung. Keine
+   Motorbewegung, keine automatische Boot-Referenz, STOP-Sperre bleibt wirksam.
    Physische Konfiguration/Freigabe am Roboter steht aus.
 6. Zwei im Code schaltbare STOP-Taster auf freien Pins 22/23: implementiert.
    Disabled bedeutet kein GPIO-Zugriff, auch nicht bei Reset und Status.

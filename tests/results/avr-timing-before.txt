@@ -1,0 +1,7 @@
+Originalcode: Commit 2313dd9
+ELF SHA256: 4572441aabfbdd37cca8ac5b04d179070b4c174b6c26453c7dd7b71a5fd0bbc3
+Simulator: simavr 1.6, atmega2560, 16 MHz
+Referenzbits nur im simulierten RAM auf 15 gesetzt, keine Hardwarefahrt.
+Befehl: MOVEJ 1 1 1 0 2
+Ergebnis: OK / PLAN T_fahrt=2.0000 segments=1 / STOPPED TIMING_ERROR
+Timer3: entries=39975 max_ISR_cycles=2580 max_us=161.250
