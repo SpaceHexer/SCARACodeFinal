@@ -1,0 +1,5 @@
+Commit: 2313dd9aedb89f715dc8d7703a28a16136bac0f0
+Stand: 2026-10-25
+GitHub: nicht hochgeladen, API Forbidden
+Board: Arduino Mega 2560
+Konfiguration am Roboter erforderlich; kein Hardware-Upload ausgeführt.

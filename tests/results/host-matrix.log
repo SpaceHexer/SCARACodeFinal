@@ -1,0 +1,48 @@
+STOP1=0 STOP2=0 subsystems
+PASS dense cross-check: 157 accepted float32 general profiles
+PASS quintic: all six boundaries, interior extrema, speed/acceleration/jerk limits (float32)
+PASS endpoint IK/FK: branches, limits, straight-arm target, no Cartesian start planner
+PASS STOP configuration: disabled pins untouched, boot hold, reset interlock, no auto resume
+PASS direct pulse counts, common time, underrun/timing/rate terminal errors
+PASS synchronized joints, EXACT, executable v/a boundary chains, successor and continuity checks
+PASS partial reference gating and RAM position lifecycle
+PASS single, sequential and parallel two-pass homing; timeout invalidates references
+All subsystem tests passed
+STOP1=0 STOP2=0 integration
+PASS main/Serial integration: partial HOME, direct MOVEXY, RAM positions, six-boundary chain, LIST, STOP in all phases
+STOP1=0 STOP2=1 subsystems
+PASS dense cross-check: 157 accepted float32 general profiles
+PASS quintic: all six boundaries, interior extrema, speed/acceleration/jerk limits (float32)
+PASS endpoint IK/FK: branches, limits, straight-arm target, no Cartesian start planner
+PASS STOP configuration: disabled pins untouched, boot hold, reset interlock, no auto resume
+PASS direct pulse counts, common time, underrun/timing/rate terminal errors
+PASS synchronized joints, EXACT, executable v/a boundary chains, successor and continuity checks
+PASS partial reference gating and RAM position lifecycle
+PASS single, sequential and parallel two-pass homing; timeout invalidates references
+All subsystem tests passed
+STOP1=0 STOP2=1 integration
+PASS main/Serial integration: partial HOME, direct MOVEXY, RAM positions, six-boundary chain, LIST, STOP in all phases
+STOP1=1 STOP2=0 subsystems
+PASS dense cross-check: 157 accepted float32 general profiles
+PASS quintic: all six boundaries, interior extrema, speed/acceleration/jerk limits (float32)
+PASS endpoint IK/FK: branches, limits, straight-arm target, no Cartesian start planner
+PASS STOP configuration: disabled pins untouched, boot hold, reset interlock, no auto resume
+PASS direct pulse counts, common time, underrun/timing/rate terminal errors
+PASS synchronized joints, EXACT, executable v/a boundary chains, successor and continuity checks
+PASS partial reference gating and RAM position lifecycle
+PASS single, sequential and parallel two-pass homing; timeout invalidates references
+All subsystem tests passed
+STOP1=1 STOP2=0 integration
+PASS main/Serial integration: partial HOME, direct MOVEXY, RAM positions, six-boundary chain, LIST, STOP in all phases
+STOP1=1 STOP2=1 subsystems
+PASS dense cross-check: 157 accepted float32 general profiles
+PASS quintic: all six boundaries, interior extrema, speed/acceleration/jerk limits (float32)
+PASS endpoint IK/FK: branches, limits, straight-arm target, no Cartesian start planner
+PASS STOP configuration: disabled pins untouched, boot hold, reset interlock, no auto resume
+PASS direct pulse counts, common time, underrun/timing/rate terminal errors
+PASS synchronized joints, EXACT, executable v/a boundary chains, successor and continuity checks
+PASS partial reference gating and RAM position lifecycle
+PASS single, sequential and parallel two-pass homing; timeout invalidates references
+All subsystem tests passed
+STOP1=1 STOP2=1 integration
+PASS main/Serial integration: partial HOME, direct MOVEXY, RAM positions, six-boundary chain, LIST, STOP in all phases

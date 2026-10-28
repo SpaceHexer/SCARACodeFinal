@@ -1,0 +1,167 @@
+[
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/Homing.h",
+    "sha256": "c2bd037aa6eae11c3baa86f95480703c5450d7b0ccdb6edbecaeb2913726df8e"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/Kinematics.h",
+    "sha256": "a2e0f11b9e99345a083db1eb6311f6a92993a73b29cc229a1ce23f752702a889"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/MotorController.h",
+    "sha256": "b19300fd41e0ff5a7f6b9b43be3abf4fe9f9a7a091d6ac540b6d2618860a5bd9"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/Movement.h",
+    "sha256": "f21cb6552fb802481792e0e97505e21704d3e1249378743c13e08aafa77c9afe"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/QuinticProfile.h",
+    "sha256": "0a692252e4becc995831d1e47cc24740ee4c7f16f896c304d7706a1d647e03c8"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/RobotConfig.h",
+    "sha256": "045c99615dfde50f50352477e5f133fc31a5730171def241ee3994dcbd00a3e5"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/SerialCommands.h",
+    "sha256": "66e0877a40db82f26eb081f138306a582b985d543c068d18f764a3d27d4c9ce9"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "include/Types.h",
+    "sha256": "fb79d2b0047032463c25dccb5c72667d353176ece86f7ca3948e041ea105f454"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "platformio.ini",
+    "sha256": "ffa106e77cc7408de16c4861735a1b09efa2905d50813878c59385dd346eba1d"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/Homing.cpp",
+    "sha256": "ee4227ed4932af15a3bb5c10cce3043c2ac6d104ec289ee14854908cf6b46c48"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/Kinematics.cpp",
+    "sha256": "93338fff85ec00a59e149cd1cbfade83933b90a5a487ef92b7439176cfd7e86c"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/MotorController.cpp",
+    "sha256": "ff347d9bbf7702732cf542af24acbd41950976bd8949f790e5e72975d4ad379b"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/Movement.cpp",
+    "sha256": "c9a30bb47ae284de79e5dc2dc58900aaf008d8574016c5afa16d039fa2ea085b"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/QuinticProfile.cpp",
+    "sha256": "69626fc7886e2314e89b7ceb487214b2bd4a416dc8ce19dad67006156484e1e1"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/SerialCommands.cpp",
+    "sha256": "6cc1579a97a7f6a569d17629a260e97d8a32b62feb67ad55de20407e4a7203ab"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/Types.cpp",
+    "sha256": "e06469c6fce646109e7b9468921d5c7187c4ec48a0461ad28a9672e355abfacc"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "src/main.cpp",
+    "sha256": "a11388eff79d2d0d69bf1c46990c1a147afdc38371a3dc8d88d5224e369e3070"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "tests/host/Arduino.h",
+    "sha256": "c4362085d93a367931619c6e98f9fec267dc14d85de18bf0e85c86ff3892d1c4"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "tests/host/firmware_integration_test.cpp",
+    "sha256": "cf05d1f68bea7ece052fa97eeb230ac38ef42b0d3b07ecec47b35426152312f0"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter-Serial/SCARA-Roboter_PlattformIO",
+    "file": "tests/host/subsystems_test.cpp",
+    "sha256": "9c58ae1c977d5db77893e95ebf8ae15f78a1b34cb4c71b57aee21fe7a5768a16"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/src/arduino/scara_robot_controller/scara_robot_controller.ino",
+    "sha256": "460722bd1c61305a796dc0132485af6afc62bd57114727101f6e92efdf371de9"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/src/minipc/app.py",
+    "sha256": "2379d89b7725af9b8598ec4dff7a14a3dcb763ba9dcb1e264d1aa4c648d262b1"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/src/minipc/protocol.py",
+    "sha256": "9eeccb79f19b12c4c74c9a543e565ca9c07da043a4eaab87b36ce394ffa8d115"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/src/minipc/robot_bridge.py",
+    "sha256": "970455c4085a5e19acb16b6ec589026b1c9c2484468f19aab2afc5f2a3d71341"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/src/minipc/static/app.js",
+    "sha256": "4dfa891aa426e323567f79d010b18a36994ab201bdc973d3833d63d76e351c25"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/src/minipc/static/index.html",
+    "sha256": "e2a0517fd4fcbe0fbf67bb97ef1cbf87841dfe0488907f3e0e3d7effd8e1e47a"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/src/minipc/static/styles.css",
+    "sha256": "916c53de05fe193ba658ffd157a090c409d2437ca8090c18c275049c8e515aa2"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "2026-03-18_v3_scara-robot/tests/test_protocol.py",
+    "sha256": "e7b0b23b01c2ce78c4d422746c38c88edf6a8afceea983a06c6f910ac5a2ccfe"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "NeuerCodeLinusScaraRobot/2026-03-18_NeuerCodeLinusScaraRobot_V2.ino",
+    "sha256": "2e6d09e3413798daf23d4af4fba4311d3f355a999721ff8beca5a7a7f4f658b1"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "NeuerCodeLinusScaraRobot/2026-03-21_NeuerCodeLinusScaraRobot_V3.ino",
+    "sha256": "3114de0950c035f337e31d58b79f96676e4f2745c3db8947cc504b9368976ec1"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "NeuerCodeLinusScaraRobot/NeuerCodeLinusScaraRobot.ino",
+    "sha256": "2e6d09e3413798daf23d4af4fba4311d3f355a999721ff8beca5a7a7f4f658b1"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "SCARA-Roboter_PlattformIO/platformio.ini",
+    "sha256": "0d7efd2a03f126cfb27c87d0fa8e589a146f3bf3b6c7a0016250d600e560033c"
+  },
+  {
+    "root": "/workspace/SCARA-Roboter",
+    "file": "SCARA-Roboter_PlattformIO/src/main.cpp",
+    "sha256": "dd4a8c16ad8fd9237166fe4b2c795632fbf682f0a76f5175b2c0ef924fcbfcab"
+  }
+]

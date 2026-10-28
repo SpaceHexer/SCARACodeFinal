@@ -1,0 +1,20 @@
+name: Firmware checks
+on: [push, pull_request]
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash tests/host/run.sh
+  mega:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [megaatmega2560, mega_stop00, mega_stop01, mega_stop10]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install platformio==6.1.19
+      - run: pio run -e ${{ matrix.environment }}
