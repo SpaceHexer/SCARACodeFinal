@@ -23,16 +23,23 @@ namespace scara {
     // Der bestehende Testschalter gilt nur im Hosttest (auf AVR oben verboten).
     constexpr bool PARALLEL_CONFIRMED = false || SCARA_TEST_CONFIRMED;
     constexpr uint8_t PARALLEL_GROUPS[] = {0x0f};  // Erst nach mechanischer Prüfung freigeben.
-    constexpr Real K1 = 200.0f * 4 * 20 / (2 * PI_VALUE), K2 = 200.0f * 4 * 16 / (2 * PI_VALUE);
-    constexpr Real K3 = 200.0f * 4 * 4 / (2 * PI_VALUE), KZ = 100;
+    constexpr Real K1 = 200.0f * 4 * 20 / (2 * PI_VALUE);
+    constexpr Real K2 = 200.0f * 4 * 16 / (2 * PI_VALUE);
+    constexpr Real K3 = 200.0f * 4 * 4 / (2 * PI_VALUE);
+    constexpr Real KZ = 100;
 
     // Benutzer: Referenzwinkel derzeit 0 Grad. Pins/Getriebe/Offsets übernommen;
     // Homing-Einstellungen am Roboter kalibrieren und HOME_CONFIRMED danach setzen.
     constexpr AxisConfig AXIS[4] = {
-        {54, 55, 38, 3,  K1, 0, 1, -PI_VALUE, PI_VALUE, 2000 / K1, 1000 / K1, 0, -1, 1200, 200, 40, 7955 },
-        {60, 61, 56, 2,  K2, 0, 1, -PI_VALUE, PI_VALUE, 2000 / K2, 1000 / K2, 0, -1, 1200, 200, 40, 200  },
-        {26, 28, 24, 14, K3, 0, 1, -PI_VALUE, PI_VALUE, 2000 / K3, 1000 / K3, 0, 1,  500,  100, 40, -1700},
-        {46, 48, 62, 15, KZ, 0, 1, 0,         300,      2000 / KZ, 1000 / KZ, 0, -1, 1100, 200, 40, 10000}
+      {54, 55, 38, 3,  K1, 0, 1, -175 * RAD_PER_DEG, 168 * RAD_PER_DEG, 2000 / K1, 1000 / K1, 0, -1, 800, 200, 40, 7900 },      // J1   
+      {60, 61, 56, 2,  K2, 0, 1, -151.5 * RAD_PER_DEG, 177 * RAD_PER_DEG, 2000 / K2, 1000 / K2, 0, -1, 1000, 200, 40, 5400  },  // J2   
+      {26, 28, 24, 14, K3, 0, 1, -200 * RAD_PER_DEG, 166 * RAD_PER_DEG, 2000 / K3, 1000 / K3, 0, 1,  500,  100, 40, -1500},     // J3   
+      {46, 48, 62, 15, KZ, 150, -1, 0,         308,      4000 / KZ, 1000 / KZ, 0, 1, 1100, 200, 40, -16000}                     // Z
+
+      // J1, Joint 1, X   // brown & white Limit  (auf RAMPS an S und GND/- sonst raucht es),   X-
+      // J2, Joint 2, Y   // blue & white Limit   (auf RAMPS an S und GND/- sonst raucht es),   X+
+      // J3, Joint 3, Z   // green & white Limit  (auf RAMPS an S und GND/- sonst raucht es),   Y-
+      // Z,  Z-Axis,  E0  // orange & white Limit (auf RAMPS an S und GND/- sonst raucht es),   Y+
     };
 
     // Zusätzliche Softgrenze am bekannten Referenz-Endschalter. Nach dem Homing
@@ -57,13 +64,13 @@ namespace scara {
     }
 
 #ifndef SCARA_STOP_BUTTON_1_ENABLED
-    constexpr bool STOP_BUTTON_1_ENABLED = true;  // Hier einzeln true/false einstellen.
+    constexpr bool STOP_BUTTON_1_ENABLED = true;  // Hier einzeln true/false einstellen, um STOP BUTTON 1 zu aktivieren/deaktivieren.
 #else
     constexpr bool STOP_BUTTON_1_ENABLED = SCARA_STOP_BUTTON_1_ENABLED;
 #endif
 
 #ifndef SCARA_STOP_BUTTON_2_ENABLED
-    constexpr bool STOP_BUTTON_2_ENABLED = true;  // Hier einzeln true/false einstellen.
+    constexpr bool STOP_BUTTON_2_ENABLED = true;  // Hier einzeln true/false einstellen, um STOP BUTTON 2 zu aktivieren/deaktivieren.
 #else
     constexpr bool STOP_BUTTON_2_ENABLED = SCARA_STOP_BUTTON_2_ENABLED;
 #endif

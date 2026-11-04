@@ -180,9 +180,20 @@ namespace scara {
         f.target[i] = steps(i);
         continue;
       }
-      if (!isfinite(q.q[i]) || q.q[i] < a.minimum - 1e-6f || q.q[i] > a.maximum + 1e-6f)
+      // Toleranz von einem halben Motorschritt.
+      const Real tolerance = 0.5f / a.stepsPerUnit;
+      const Real position = q.q[i];
+
+      if (!isfinite(position) ||
+          position < a.minimum - tolerance ||
+          position > a.maximum + tolerance)
         return false;
-      Real n = (q.q[i] - a.qRef) * a.stepsPerUnit;
+
+      // Kleine numerische Grenzabweichungen abfangen.
+      const Real boundedPosition =
+          fmaxf(a.minimum, fminf(a.maximum, position));
+
+      Real n = (boundedPosition - a.qRef) * a.stepsPerUnit;
       if (!isfinite(n) || fabsf(n) > 2147483000.0f)
         return false;
       f.target[i] = int32_t(lroundf(n));

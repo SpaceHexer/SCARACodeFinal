@@ -139,8 +139,11 @@ namespace scara {
         if (!isfinite(v))
           return Error::ProfileLimit;
         if (order == 0) {
-          if (v < a.minimum - 1e-6f || v > a.maximum + 1e-6f)
-            return Error::JointLimit;
+          const Real tolerance = 0.5f / a.stepsPerUnit;
+
+        if (v < a.minimum - tolerance ||
+            v > a.maximum + tolerance)
+          return Error::JointLimit;
         } else {
           Real limit = order == 1 ? a.maxSpeed : order == 2 ? a.maxAcceleration : a.maxJerk;
           if (limit > 0 && fabsf(v) > limit * (1 + 2e-5f))

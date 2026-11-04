@@ -45,7 +45,7 @@ namespace scara {
     uint8_t mask = pending_;
     if (sequential_) {
       // Achsnummern: J1=0, J2=1, J3=2, Z=3.
-      const uint8_t order[] = {3, 0, 1, 2};
+      const uint8_t order[] = {3, 2, 1, 0};
 
       mask = 0;
       for (uint8_t axis : order) {
