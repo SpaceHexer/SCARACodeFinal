@@ -13,6 +13,7 @@ scara::SerialCommands commands(motors, robot, movement, homing, positions, stops
 void setup() {
   stops.begin();
   motors.begin();
+  positions.begin();
   commands.begin();
 }
 

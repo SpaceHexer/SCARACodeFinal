@@ -48,7 +48,11 @@ namespace scara {
     out_.print(config::STOP_BUTTON_1_ENABLED ? 1 : 0);
     out_.print(F(" STOP2="));
     out_.println(config::STOP_BUTTON_2_ENABLED ? 1 : 0);
-    out_.println(F("Positionen: RAM, nach Neustart leer"));
+    #ifdef ARDUINO_ARCH_AVR
+      out_.println(F("Positionen: EEPROM, nach Neustart verfügbar"));
+    #else
+      out_.println(F("Positionen: RAM, nach Neustart leer"));
+    #endif
   }
 
   void SerialCommands::reply(Error e) {
@@ -430,6 +434,10 @@ namespace scara {
         return;
       }
       if (!strcmp(cmd, "DELETE")) {
+        if (movement_.busy() || homing_.busy()) {
+          reply(Error::Busy);
+          return;
+        }
         reply(store_.erase(id));
         return;
       }
