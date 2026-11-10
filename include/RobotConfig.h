@@ -92,7 +92,7 @@ namespace scara {
       return uint16_t(TICKS_PER_FRAME / spacing);
     }
 
-    constexpr uint8_t FRAME_QUEUE_SIZE = 4, MAX_SEGMENTS = 3;
+    constexpr uint8_t FRAME_QUEUE_SIZE = 4, MAX_SEGMENTS = 8;
     constexpr uint32_t HOME_TIMEOUT_MS = 60000, SWITCH_DEBOUNCE_MS = 5;
     constexpr int32_t HOME_MAX_STEPS = 100000;
     constexpr Real DEFAULT_DURATION = 1, MAX_DURATION = 120;

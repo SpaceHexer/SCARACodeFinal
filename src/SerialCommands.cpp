@@ -88,7 +88,7 @@ namespace scara {
     out_.print(F("STATE REF_MASK="));
     out_.print(robot_.referenceMask());
     out_.print(F(" BUSY="));
-    out_.print(movement_.busy() || homing_.busy() ? 1 : 0);
+    out_.print(cueCount_ || movement_.busy() || homing_.busy() ? 1 : 0);
     out_.print(F(" FAULT="));
     out_.println(errorName(motors_.status().error));
     out_.print(F("STOP1="));
@@ -126,11 +126,77 @@ namespace scara {
     return movement_.request(r);
   }
 
+  Error SerialCommands::startCue(char* const* args, uint8_t n) {
+    if (!n || n > 2 * PositionStore::CAPACITY)
+      return Error::BadArgs;
+    Error e = ready(15);
+    if (e != Error::None)
+      return e;
+
+    const uint8_t count = (n + 1) / 2;
+    for (uint8_t i = 0; i < count; ++i) {
+      const uint8_t arg = 2 * i;
+      uint8_t id;
+      Real seconds = 0;
+      if (!slot(args[arg], id))
+        return Error::BadArgs;
+      if (arg + 1 < n && (!number(args[arg + 1], seconds) || seconds < 0 || seconds > 3600))
+        return Error::BadArgs;
+      if (!store_.occupied(id))
+        return Error::EmptySlot;
+      cue_[i] = {id, uint32_t(lroundf(seconds * 1000))};
+    }
+
+    cueIndex_ = 0;
+    cueWaiting_ = false;
+    e = moveCueEntry();
+    if (e == Error::None)
+      cueCount_ = count;
+    return e;
+  }
+
+  Error SerialCommands::moveCueEntry() {
+    Pose p;
+    Error e = store_.load(cue_[cueIndex_].slot, p);
+    return e == Error::None ? movePose(p, config::DEFAULT_DURATION) : e;
+  }
+
+  void SerialCommands::updateCue(Error motorError) {
+    if (!cueCount_)
+      return;
+    if (motorError != Error::None || movement_.state() == Movement::Failed) {
+      cueCount_ = 0;
+      return;  // Der bestehende Ereigniscode meldet den Fehler.
+    }
+    if (movement_.state() != Movement::Done)
+      return;
+    const uint32_t now = millis();
+    if (!cueWaiting_) {
+      cuePauseStart_ = now;
+      cueWaiting_ = true;
+    }
+    if (uint32_t(now - cuePauseStart_) < cue_[cueIndex_].pauseMs)
+      return;
+
+    if (++cueIndex_ == cueCount_) {
+      cueCount_ = 0;
+      out_.println(F("DONE CUE"));
+      return;
+    }
+
+    cueWaiting_ = false;
+    Error e = moveCueEntry();
+    if (e != Error::None) {
+      cueCount_ = 0;
+      reply(e);
+    }
+  }
+
   void SerialCommands::execute(char* line) {
-    char* t[32];
+    char* t[1 + 2 * PositionStore::CAPACITY];
     uint8_t n = 0;
     for (char* token = strtok(line, " \t"); token; token = strtok(nullptr, " \t")) {
-      if (n == 32) {
+      if (n == sizeof(t) / sizeof(t[0])) {
         reply(Error::BadArgs);
         return;
       }
@@ -141,6 +207,7 @@ namespace scara {
       return;
     const char* cmd = t[0];
     if (!strcmp(cmd, "STOP") && n == 1) {
+      cueCount_ = 0;
       motors_.emergencyStop();
       movement_.abort();
       homing_.cancel();
@@ -152,7 +219,7 @@ namespace scara {
       return;
     }
     if (!strcmp(cmd, "RESETSTOP") && n == 1) {
-      if (movement_.busy() || homing_.busy()) {
+      if (cueCount_ || movement_.busy() || homing_.busy()) {
         reply(Error::Busy);
         return;
       }
@@ -180,8 +247,17 @@ namespace scara {
       out_.println(F("SETJ J1 deg [T] | SETZ mm [T] | MOVEJ q1 q2 q3 z T"));
       out_.println(F("MOVEXY x y [Z mm] [PSI deg] [T s]"));
       out_.println(F("SAVE n | POSITION n [T] | LIST | DELETE n"));
+      out_.println(F("CUE slot [Pause_s slot ...] [Pause_s] | STOP bricht Folge ab"));
       out_.println(F("BEGIN | SEG q1 q2 q3 z T [V0/A0/V1/A1 4 Werte] [EXACT] | RUN | CANCEL"));
       out_.println(F("STOP | RESETSTOP | STATUS | FK | IK | COEFF | PROFILE"));
+      return;
+    }
+    if (cueCount_) {
+      reply(Error::Busy);
+      return;
+    }
+    if (!strcmp(cmd, "CUE")) {
+      reply(startCue(t + 1, n - 1));
       return;
     }
     if (!strcmp(cmd, "MOVEL") || !strcmp(cmd, "CHECKLINE")) {
@@ -634,5 +710,6 @@ namespace scara {
       else if (lastMove_ == Movement::Failed && m.error == Error::None)
         reply(movement_.error());
     }
+    updateCue(m.error);
   }
 }  // namespace scara

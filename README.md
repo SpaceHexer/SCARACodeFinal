@@ -101,6 +101,7 @@ sind keine Erfolgsmeldungen. Neue normale Fahrbefehle erst nach Abschluss senden
 | MOVEXY 210 145 Z 20 PSI 0 T 3 | Zielpose und Wunschdauer angeben |
 | SAVE 0 / POSITION 0 [T] | Aktuelle referenzierte TCP-Pose speichern bzw. über Ziel-IK/Gelenkprofile anfahren |
 | LIST / DELETE 0 | Gespeicherte Positionen auflisten bzw. löschen |
+| CUE 1 1 2 0.5 3 | Gespeicherte Plätze nacheinander anfahren; nach Platz 1 eine Sekunde, nach Platz 2 eine halbe Sekunde warten |
 | STOP / RESETSTOP | Verriegeln und nach Freigabe zurücksetzen; danach erneut HOME oder SETREF nötig |
 | FK j1 j2 j3 z | Vorwärtskinematik, Winkelargumente in Grad |
 | IK x y z psi | Passende zulässige Zielgelenke ausgeben, psi in Grad |
@@ -112,11 +113,20 @@ sind keine Erfolgsmeldungen. Neue normale Fahrbefehle erst nach Abschluss senden
 unter anderer Bedeutung ausgeführt. `CONFIG CONFIRM` entfällt; die Hardware-
 Konfiguration wird zentral im Code geprüft und freigegeben.
 
-Es gibt 16 Slots (0..15) **ausschließlich im RAM**. Nach Stromausfall/Neustart sind
-sie leer. STOP/RESETSTOP löschen gespeicherte Zielposen nicht, aber neue Fahrten
-benötigen erneut Referenzen. SAVE erfordert Stillstand und vollständige Referenzen.
-Keine EEPROM-Schreibvorgänge. Ein gespeicherter Punkt wird bei jedem Abruf neu
-über IK und Achsgrenzen geprüft. Er garantiert keine kollisionsfreie Anfahrt.
+Es gibt 16 Slots (0..15). Auf dem Mega bleiben sie im EEPROM über Neustarts
+erhalten; die Hosttests verwenden RAM. STOP/RESETSTOP löschen gespeicherte
+Zielposen nicht, aber neue Fahrten benötigen erneut Referenzen. SAVE erfordert
+Stillstand und vollständige Referenzen. Ein gespeicherter Punkt wird bei jedem
+Abruf neu über IK und Achsgrenzen geprüft. Er garantiert keine kollisionsfreie
+Anfahrt.
+
+`CUE <Slot> [<Pause_s> <Slot> ...] [<Pause_s>]` verarbeitet bis zu 16 Ziele.
+Die Pause (0 bis 3600 Sekunden, Dezimalpunkt für Bruchteile) beginnt jeweils
+nach `DONE MOVE`. Verwende zwischen zwei Zielen `0`, wenn keine Pause nötig
+ist. Eine Pause nach dem letzten Ziel ist optional. `DONE CUE` meldet das
+Ende der ganzen Folge. Alle Slots müssen vor dem Start belegt sein. Während
+der Fahrt oder Pause beendet `STOP` die ganze Folge; ein Fahrfehler startet
+keine weiteren Ziele.
 
 ### Homing überspringen: bekannte Stellung manuell übernehmen
 
@@ -233,7 +243,7 @@ COEFF-Demonstration, sondern Bestandteil einer geprüften ausgeführten Folge.
 | Movement | Vorbereiten/Prüfen gemeinsamer Gelenksegmente und Frame-Ausgabe |
 | MotorController | Atomare Zustände, q_ref/n_ref-Umrechnung, GPIO und Timer3 |
 | Homing | Zustandsautomat je Achse, zwei Antastungen, Parallel-/Einzelmodus |
-| PositionStore | 16 RAM-Slots mit Werkzeugposen |
+| PositionStore | 16 Plätze für Werkzeugposen (EEPROM auf dem Mega, RAM im Hosttest) |
 | StopInputs | Ausschließlich aktivierte STOP-Pins überwachen |
 | SerialCommands / Console | Striktes Parsing, begrenzte nicht blockierende Ausgabe |
 | main | Subsysteme verbinden und zyklisch bedienen |

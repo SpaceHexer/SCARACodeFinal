@@ -27,6 +27,13 @@ namespace scara {
     uint8_t length_ = 0;
     uint8_t listCursor_ = PositionStore::CAPACITY;
     bool discarding_ = false;
+    struct CueEntry {
+      uint8_t slot;
+      uint32_t pauseMs;
+    } cue_[PositionStore::CAPACITY];
+    uint8_t cueCount_ = 0, cueIndex_ = 0;
+    bool cueWaiting_ = false;
+    uint32_t cuePauseStart_ = 0;
     Movement::State lastMove_ = Movement::Idle;
     Homing::State lastHome_ = Homing::Idle;
     Error lastFault_ = Error::None;
@@ -36,5 +43,8 @@ namespace scara {
     void pose(const Pose& p);
     Error ready(uint8_t mask) const;
     Error movePose(const Pose& p, Real duration);
+    Error startCue(char* const* args, uint8_t n);
+    Error moveCueEntry();
+    void updateCue(Error motorError);
   };
 }  // namespace scara

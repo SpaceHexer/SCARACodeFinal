@@ -145,6 +145,66 @@ int main() {
   finishMove();
   actual = k.forward(motors.position());
   assert(fabsf(actual.x - 210) < .25f);
+  // CUE prueft die ganze Slotliste vor dem ersten Fahrbefehl.
+  send("CUE 0 1 15\n");
+  assert(Serial.output.find("ERR EMPTY_POSITION") != std::string::npos);
+  assert(!movement.busy() && Serial.output.find("PLAN") == std::string::npos);
+  send("CUE 0 -0.1 0\n");
+  assert(Serial.output.find("ERR BAD_ARGS") != std::string::npos);
+  Pose cuePose = actual;
+  for (uint8_t id = 1; id <= 3; ++id) {
+    cuePose.z = 20 + id;
+    assert(positions.save(id, cuePose) == Error::None);
+  }
+
+  send("CUE 1 1 2 0 3 0.25\n");
+  finishMove();
+  assert(fabsf(motors.position().q[3] - 21) < .02f);
+  send("STATUS\n");
+  assert(Serial.output.find("BUSY=1") != std::string::npos);
+  send("MOVEJ 0 0 0 20 1\n");
+  assert(Serial.output.find("ERR BUSY") != std::string::npos);
+  for (int n = 0; n < 5000; ++n)
+    cycle();
+  assert(!movement.busy() && fabsf(motors.position().q[3] - 21) < .02f);
+  // Zweite Fahrt startet erst nach Ablauf der ersten Pause.
+  for (int n = 0; n < 10000 && !movement.busy(); ++n)
+    cycle();
+  assert(movement.busy());
+  // Bei Pause 0 startet Ziel 3 unmittelbar nach Abschluss von Ziel 2.
+  for (int n = 0; n < 4000000 && fabsf(motors.position().q[3] - 22) > .001f; ++n)
+    cycle();
+  assert(fabsf(motors.position().q[3] - 22) < .02f);
+  finishMove();
+  assert(fabsf(motors.position().q[3] - 23) < .02f);
+  assert(Serial.output.find("DONE CUE") == std::string::npos);
+  for (int n = 0; n < 2500; ++n)
+    cycle();
+  assert(Serial.output.find("DONE CUE") != std::string::npos);
+
+  // Auch ein ungueltiges Bewegungsziel in einer laufenden Folge beendet sie.
+  cuePose.z = config::limits(3).maximum + 1;
+  assert(positions.save(4, cuePose) == Error::None);
+  send("CUE 1 0.1 4 0 3\n");
+  finishMove();
+  for (int n = 0; n < 2500; ++n)
+    cycle();
+  assert(Serial.output.find("ERR JOINT_LIMIT") != std::string::npos);
+  assert(Serial.output.find("DONE CUE") == std::string::npos);
+  assert(!movement.busy() && fabsf(motors.position().q[3] - 21) < .02f);
+
+  send("CUE 1 0.2 2\n");
+  finishMove();
+  send("STOP\n");
+  for (int n = 0; n < 3000; ++n)
+    cycle();
+  assert(motors.status().error == Error::Stopped && !movement.busy());
+  assert(fabsf(motors.position().q[3] - 21) < .02f);
+  assert(Serial.output.find("DONE CUE") == std::string::npos);
+  reset();
+  homeAll();
+  send("POSITION 0\n");
+  finishMove();
   send("MOVEL 0 0 0 0 1\n");
   assert(Serial.output.find("REMOVED") != std::string::npos);
   send("CHECKLINE 0 0 0 0 1\n");
