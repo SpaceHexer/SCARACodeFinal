@@ -27,10 +27,11 @@ namespace scara {
     uint8_t length_ = 0;
     uint8_t listCursor_ = PositionStore::CAPACITY;
     bool discarding_ = false;
+    static constexpr uint8_t MAX_CUE_ENTRIES = 16;
     struct CueEntry {
       uint8_t slot;
       uint32_t pauseMs;
-    } cue_[PositionStore::CAPACITY];
+    } cue_[MAX_CUE_ENTRIES];
     uint8_t cueCount_ = 0, cueIndex_ = 0;
     bool cueWaiting_ = false;
     uint32_t cuePauseStart_ = 0;

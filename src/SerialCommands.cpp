@@ -127,7 +127,7 @@ namespace scara {
   }
 
   Error SerialCommands::startCue(char* const* args, uint8_t n) {
-    if (!n || n > 2 * PositionStore::CAPACITY)
+    if (!n || n > 2 * MAX_CUE_ENTRIES)
       return Error::BadArgs;
     Error e = ready(15);
     if (e != Error::None)
@@ -193,7 +193,7 @@ namespace scara {
   }
 
   void SerialCommands::execute(char* line) {
-    char* t[1 + 2 * PositionStore::CAPACITY];
+    char* t[1 + 2 * MAX_CUE_ENTRIES];
     uint8_t n = 0;
     for (char* token = strtok(line, " \t"); token; token = strtok(nullptr, " \t")) {
       if (n == sizeof(t) / sizeof(t[0])) {
@@ -644,7 +644,7 @@ namespace scara {
 
   void SerialCommands::update() {
     out_.update();
-    // LIST portionsweise ausgeben, damit auch 16 gefüllte Slots keinen TX-
+    // LIST portionsweise ausgeben, damit auch alle gefüllten Slots keinen TX-
     // Überlauf verursachen und STOP/Frames weiterhin regelmäßig bedient werden.
     if (listCursor_ < PositionStore::CAPACITY && out_.availableForWrite() >= 128) {
       uint8_t id = listCursor_++;

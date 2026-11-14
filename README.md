@@ -113,7 +113,7 @@ sind keine Erfolgsmeldungen. Neue normale Fahrbefehle erst nach Abschluss senden
 unter anderer Bedeutung ausgeführt. `CONFIG CONFIRM` entfällt; die Hardware-
 Konfiguration wird zentral im Code geprüft und freigegeben.
 
-Es gibt 16 Slots (0..15). Auf dem Mega bleiben sie im EEPROM über Neustarts
+Es gibt 32 Slots (0..31). Auf dem Mega bleiben sie im EEPROM über Neustarts
 erhalten; die Hosttests verwenden RAM. STOP/RESETSTOP löschen gespeicherte
 Zielposen nicht, aber neue Fahrten benötigen erneut Referenzen. SAVE erfordert
 Stillstand und vollständige Referenzen. Ein gespeicherter Punkt wird bei jedem
@@ -243,7 +243,7 @@ COEFF-Demonstration, sondern Bestandteil einer geprüften ausgeführten Folge.
 | Movement | Vorbereiten/Prüfen gemeinsamer Gelenksegmente und Frame-Ausgabe |
 | MotorController | Atomare Zustände, q_ref/n_ref-Umrechnung, GPIO und Timer3 |
 | Homing | Zustandsautomat je Achse, zwei Antastungen, Parallel-/Einzelmodus |
-| PositionStore | 16 Plätze für Werkzeugposen (EEPROM auf dem Mega, RAM im Hosttest) |
+| PositionStore | 32 Plätze für Werkzeugposen (EEPROM auf dem Mega, RAM im Hosttest) |
 | StopInputs | Ausschließlich aktivierte STOP-Pins überwachen |
 | SerialCommands / Console | Striktes Parsing, begrenzte nicht blockierende Ausgabe |
 | main | Subsysteme verbinden und zyklisch bedienen |

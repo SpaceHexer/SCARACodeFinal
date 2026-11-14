@@ -50,7 +50,7 @@ namespace scara {
       EEPROM.get(address + 1 + sizeof(Pose), storedCrc);
       if (poseCrc(p) == storedCrc && validPose(p)) {
         poses_[id] = p;
-        used_ |= uint16_t(1) << id;
+        used_ |= uint32_t(1) << id;
       }
     }
 #endif
@@ -77,7 +77,7 @@ namespace scara {
 #endif
 
     poses_[id] = p;
-    used_ |= uint16_t(1) << id;
+    used_ |= uint32_t(1) << id;
     return Error::None;
   }
 
@@ -97,7 +97,7 @@ namespace scara {
     EEPROM.update(slotAddress(id), 0);
     eeprom_busy_wait();
 #endif
-    used_ &= uint16_t(~(uint16_t(1) << id));
+    used_ &= ~(uint32_t(1) << id);
     return Error::None;
   }
 }  // namespace scara
