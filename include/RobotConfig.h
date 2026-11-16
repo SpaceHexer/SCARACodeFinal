@@ -38,8 +38,8 @@ namespace scara {
 
       // J1, Joint 1, X   // brown & white Limit  (auf RAMPS an S und GND/- sonst raucht es),   X-
       // J2, Joint 2, Y   // blue & white Limit   (auf RAMPS an S und GND/- sonst raucht es),   X+
-      // J3, Joint 3, Z   // green & white Limit  (auf RAMPS an S und GND/- sonst raucht es),   Y-
-      // Z,  Z-Axis,  E0  // orange & white Limit (auf RAMPS an S und GND/- sonst raucht es),   Y+
+      // J3, Joint 3, E0  // green & white Limit  (auf RAMPS an S und GND/- sonst raucht es),   Y-
+      // Z,  Z-Axis,  Z   // orange & white Limit (auf RAMPS an S und GND/- sonst raucht es),   Y+
     };
 
     // Zusätzliche Softgrenze am bekannten Referenz-Endschalter. Nach dem Homing
